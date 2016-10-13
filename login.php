@@ -13,38 +13,35 @@
 	$signupEmailError = "";
 	$signupEmail = "";
 	$signupTelError = "";
+	$signupUsername = "";
+	$signupUsernameError = "";
+	$signupTelephone = "";
+	$signupTelephoneError = "";
 	
-	//kas on üldse olemas
-	if (isset ($_POST["signupTel"])) {
+	//kas on Ã¼ldse olemas
+	if (isset ($_POST["signupTelephone"])) {
 		
-		// oli olemas, ehk keegi vajutas nuppu
-		// kas oli tühi
-		if (empty ($_POST["signupTel"])) {
+		if(empty ($_POST["signupTelephone"])){
 			
-			//oli tõesti tühi
-			$signupTelError = "See väli on kohustuslik";
+			$signupTelephoneError = "See vÃ¤li on kohustuslik";
 			
-		} else {
-				
-			// kõik korras, email ei ole tühi ja on olemas
-			$signupTel = $_POST["signupTel"];
 		}
 		
 	}
 	
-	//kas on üldse olemas
+	//kas on Ã¼ldse olemas
 	if (isset ($_POST["signupEmail"])) {
 		
 		// oli olemas, ehk keegi vajutas nuppu
-		// kas oli tühi
+		// kas oli tÃ¼hi
 		if (empty ($_POST["signupEmail"])) {
 			
-			//oli tõesti tühi
-			$signupEmailError = "See väli on kohustuslik";
+			//oli tÃµesti tÃ¼hi
+			$signupEmailError = "See vÃ¤li on kohustuslik";
 			
 		} else {
 				
-			// kõik korras, email ei ole tühi ja on olemas
+			// kÃµik korras, email ei ole tÃ¼hi ja on olemas
 			$signupEmail = $_POST["signupEmail"];
 		}
 		
@@ -52,28 +49,46 @@
 	
 	$signupPasswordError = "";
 	
-	//kas on üldse olemas
+	//kas on Ã¼ldse olemas
 	if (isset ($_POST["signupPassword"])) {
 		
 		// oli olemas, ehk keegi vajutas nuppu
-		// kas oli tühi
+		// kas oli tÃ¼hi
 		if (empty ($_POST["signupPassword"])) {
 			
-			//oli tõesti tühi
-			$signupPasswordError = "See väli on kohustuslik";
+			//oli tÃµesti tÃ¼hi
+			$signupPasswordError = "See vÃ¤li on kohustuslik";
 			
 		} else {
 			
-			// oli midagi, ei olnud tühi
+			// oli midagi, ei olnud tÃ¼hi
 			
-			// kas pikkus vähemalt 8
+			// kas pikkus vÃ¤hemalt 8
 			if (strlen ($_POST["signupPassword"]) < 8 ) {
 				
-				$signupPasswordError = "Parool peab olema vähemalt 8 tm pikk";
+				$signupPasswordError = "Parool peab olema vÃ¤hemalt 8 tm pikk";
 				
 			}
 			
 		}
+		
+	}
+	
+	if(isset($_POST["signupUsername"])) {
+		if(empty($_POST["signupUsername"])) {
+			
+			$signupUsernameError = "See vÃ¤li on kohustuslik";
+			
+		} else {
+			
+			if (strlen ($_POST["signupUsername"]) < 6) {
+				
+				$signupUsernameError = "Kasutajanimi peab olema vÃ¤hemalt 6 tm pikk";
+				
+			}
+			
+		}
+		
 		
 	}
 	
@@ -82,7 +97,7 @@
 	if(isset($_POST["gender"])) {
 		if(!empty($_POST["gender"])){
 			
-			//on olemas ja ei ole tühi
+			//on olemas ja ei ole tÃ¼hi
 			$gender = $_POST["gender"];
 		}
 	}
@@ -93,14 +108,14 @@
 		 empty($signupPasswordError)
 	   ) {
 		
-		// ühtegi viga ei ole, kõik vajalik olemas
+		// Ã¼htegi viga ei ole, kÃµik vajalik olemas
 		echo "salvestan...<br>";
 		echo "email ".$signupEmail."<br>";
 		echo "parool ".$_POST["signupPassword"]."<br>";
 		
 		$password = hash("sha512", $_POST["signupPassword"]);
 		
-		echo "räsi ".$password."<br>";
+		echo "rÃ¤si ".$password."<br>";
 		
 		//kutsun funktsiooni, et salvestada
 		signup($signupEmail, $password);
@@ -109,7 +124,7 @@
 	
 	
 	$notice = "";
-	// mõlemad login vormi väljad on täidetud
+	// mÃµlemad login vormi vÃ¤ljad on tÃ¤idetud
 	if (	isset($_POST["loginEmail"]) && 
 			isset($_POST["loginPassword"]) && 
 			!empty($_POST["loginEmail"]) && 
@@ -131,6 +146,7 @@
 		<p style="color:red;"><?php echo $notice; ?></p>
 		<form method="POST">
 			
+			
 			<label>E-post</label><br>
 			<input name="loginEmail" type="email">
 			
@@ -145,9 +161,14 @@
 		
 		</form>
 		
-		<h1>Loo kasutaja</h1>
+		<h1>Loo Kasutaja</h1>
 		
 		<form method="POST">
+			
+			<label>Kasutajanimi</label><br>
+			<input name="signupUsername" type="text"> <?php echo $signupUsernameError; ?>
+			
+			<br><br>
 			
 			<label>E-post</label><br>
 			<input name="signupEmail" type="email" value="<?=$signupEmail;?>" > <?php echo $signupEmailError; ?>
@@ -178,7 +199,7 @@
 			<?php } ?><br>
 			
 			<label>Telefon</label><br>
-			<input name="signupTel" type="tel"> <?php echo $signupTelError; ?>
+			<input name="signupTelephone" type="tel"> <?php echo $signupTelephoneError; ?>
 			
 			<br><br>
 			
