@@ -1,6 +1,5 @@
 <?php
 
-
 require("functions.php");
 
 if(isset($_SESSION["userId"])) {
@@ -15,15 +14,26 @@ $controlPasswordError = "";
 $forgotEmailNotif = "";
 $signupEmail = "";
 $loginEmail = "";
+$signupName = "";
+$signupBUEmail = "";
+if (isset ($_POST["signupName"])){
+    if (!empty($_POST["signupName"])){
+        $signupName = $_POST["signupName"];
+    }
+}
+if (isset($_POST["signupBUEmail"]) && !empty($_POST["signupBUEmail"])){
+    $signupBUEmail = $_POST["signupBUEmail"];
+}
 if (isset ($_POST["loginEmail"] ) ) {
 	if (!empty($_POST["loginEmail"])){
-		$loginEmail = $_POST["loginEmail"];	
+		$loginEmail = $_POST["loginEmail"];
 	}
 }
 if (isset ($_POST["forgotEmail"] ) ) {
 	if (empty($_POST["forgotEmail"])){
 		$forgotEmailNotif = "To reset your password, please enter your email.";
 	} else {
+        notifyForgottenUser($_POST["forgotEmail"]);
 		$forgotEmailNotif = "An email notification has been sent to you.";
 	}
 }
@@ -50,7 +60,7 @@ if (isset ($_POST["signupName"])){
 }
 if (isset ($_POST["controlPassword"])){
     if (empty($_POST["controlPassword"])){
-        $controlPasswordError = "Please retype your password for security purposes";
+        $controlPasswordError = "Please retype your password for security purposes.";
     } else {
         if ($_POST["signupPassword"] != $_POST["controlPassword"]){
         $controlPasswordError = "The passwords you have typed are not the same";
@@ -76,6 +86,7 @@ if (isset($_POST["signupEmail"]) && isset($_POST["signupPassword"]) && isset($_P
 
 
 	signUp($signupEmail, $password, $_POST["signupName"], $_POST["signupBUEmail"]);
+	header("Location: new_user.php");
 	//connect to MariaDB, since I'm cool
 }
 
@@ -89,9 +100,24 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 <html>
 	<head>
 		<title>Login Page</title>
+		<style>
+        
+            body {
+                font-family: Roboto;
+                color: black;
+            }
+            h1 {
+                font-family: Roboto; 
+                font-weight: 400;
+                color: DarkSlateGray;
+            }
+            legend {
+                font-weight: 500;
+            }
+		</style>
 	</head>
 	<body>
-
+        
 		<h1>Log into the system</h1>
 		<fieldset>
 		<legend>Login information</legend>
@@ -126,11 +152,11 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 		<br><br>
 		<label>Display name</label>
 		<br>
-		<input name="signupName" type="text"><?php echo $signupNameError; ?>
+		<input name="signupName" type="text" value="<?php echo $signupName; ?>"><?php echo $signupNameError; ?>
 		<br><br>
 		<label>Backup email address</label>
 		<br>
-		<input name="signupBUEmail" type="text"><?php echo $signupBUError; ?>
+		<input name="signupBUEmail" type="text" value= "<?php echo $signupBUEmail; ?>"><?php echo $signupBUError; ?>
 		<br><br>
 		<input type="submit" value="Create user">
 		</form>
@@ -139,6 +165,8 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 		<h1>Forgot your password?</h1>
 		<fieldset>
 		<legend>Email information</legend>
+		<p>Please be notified of the following things:<br> * Password retrieving by email is not operational as of yet;<br> * Our servers do not store your password, therefore a new password must be generated.
+		</p>
 		<form method="POST">
 		<label>E-mail address</label>
 		<br>

@@ -128,4 +128,16 @@ function cleanInput ($input) {
     return $input;
 }
 
+function notifyForgottenUser ($email) {
+        $try_inoperational = 0;
+        if ($try_inoperational = 0){
+            $fp = fopen("forgotten_passwords.log", "w") or die("Sorry, but this didn't work.");
+            $fpdata = "forgotten password for email ".$email;
+            fwrite($fp, $fpdata);
+            fclose($fp);
+        } else {
+            echo("We're sorry, but this does not work as of yet.");}
+            
+}
+
 ?>

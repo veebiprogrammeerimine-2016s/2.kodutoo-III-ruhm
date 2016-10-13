@@ -6,6 +6,7 @@ require("functions.php");
 if (isset($_GET["logout"])) {
 	session_destroy();
 	header("Location: login.php");
+	exit();
 }
 
 if (!isset($_SESSION["userId"])) {
@@ -30,7 +31,7 @@ echo "</pre>";
 
 
 
-<h1>Data</h1>
+<h1>My extra-mega-secure website</h1>
 <p>Welcome, <?=$_SESSION["userEmail"]?>.
 <a href="?logout=1">Log out</a>
 </p>
