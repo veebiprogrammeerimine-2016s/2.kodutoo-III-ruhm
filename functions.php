@@ -8,7 +8,7 @@
 	
 	$database = "if16_richkaja_3";
 	function signup($username, $email, $password, $gender, $birthdate) {
-		
+		$email = cleanInput($email);
 		$mysqli = new mysqli($GLOBALS["serverHost"],
 							$GLOBALS["serverUsername"],
 							$GLOBALS["serverPassword"],
@@ -78,7 +78,7 @@
 		return $notice;
 	}
 	
-	function saveFeedback($username, $feedback) {
+	function saveFeedback($feedback) {
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"],
 					$GLOBALS["serverUsername"],
@@ -86,11 +86,11 @@
 					$GLOBALS["database"]
 					);
 		$stmt = $mysqli->prepare("
-		INSERT INTO feedback(username, feedback) VALUES(?, ?)
+		INSERT INTO feedback(userid, feedback) VALUES(?, ?)
 		");
 		// s, i, d
 		echo $mysqli->error;
-		$stmt->bind_param("ss", $username, $feedback);
+		$stmt->bind_param("is", $_SESSION["userId"], $feedback);
 		
 		if ($stmt -> execute() ) {
 				echo "salvestamine onnestus";
@@ -109,10 +109,12 @@
 			);
 			
 		$stmt = $mysqli->prepare("
-			SELECT id, username, feedback
-			FROM feedback
+			SELECT feedback.id, login_data.username, feedback.feedback
+			FROM feedback, login_data
+			WHERE feedback.userid = ? AND login_data.id = feedback.userid
 		");
 		
+		$stmt->bind_param("i", $_SESSION["userId"]);
 		$stmt->bind_result($id, $username, $feedback);
 		$stmt->execute();
 		$result = array();

@@ -22,7 +22,7 @@
 			
 			$Feedback = $_POST['feedback'];
 			$Feedback = cleanInput($Feedback);
-			saveFeedback($_SESSION["username"], $Feedback);
+			saveFeedback($Feedback);
 			header("Location: data.php");
 			exit();
 		}
@@ -56,7 +56,7 @@
 		</form>
 
 		
-		<h2 style="clear:both;">Tabel</h2>
+		<h2 style="clear:both;">Feedback table</h2>
 		<div class="table">
 		<?php
 			
@@ -64,7 +64,6 @@
 				$html .= "<tr>";
 					$html .= "<th>Username</th>";
 					$html .= "<th>Feedback</th>";
-
 				$html .= "</tr>";
 			foreach($feedback as $f) {
 				$html .= "<tr>";
