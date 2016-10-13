@@ -15,10 +15,8 @@ exit();
 
 if (isset($_POST["note"]) and isset($_POST["notecolor"])) {
 	if (!empty($_POST["note"]) and !empty($_POST["notecolor"])) {
-		echo("WHY IS THIS SO");
 		$note = $_POST["note"];
 		$color = $_POST["notecolor"];
-		echo($note." ".$color);
 		$note = cleanInput($note);
 		$color = cleanInput($color);
 		saveNote($note, $color);
@@ -33,12 +31,9 @@ echo "</pre>";
 
 
 <h1>Data</h1>
-<p>
-Welcome, <?=$_SESSION["userEmail"]?>.
+<p>Welcome, <?=$_SESSION["userEmail"]?>.
 <a href="?logout=1">Log out</a>
 </p>
-
-	
 	<h1>Enter some notes!</h1>
 	<fieldset>
 	<legend>Enter notes!</legend>
@@ -54,7 +49,6 @@ Welcome, <?=$_SESSION["userEmail"]?>.
 	<input type="submit" value="Save your note">
 	</form>
 	</fieldset>
-
 <?php
 
 foreach ($notes as $n) {

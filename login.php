@@ -39,7 +39,7 @@ if (isset ($_POST["signupPassword"] ) ) {
 	if (empty($_POST["signupPassword"])){
 		$signupPasswordError = "Please enter a password.";
 	} else {
-		// pikkus vähemalt kaheksa
+		// length of at least 8 characters
 		if (strlen ($_POST["signupPassword"]) < 8) { $signupPasswordError = "Please make sure your password is at least 8 characters long.";}
 	}
 }
@@ -76,7 +76,7 @@ if (isset($_POST["signupEmail"]) && isset($_POST["signupPassword"]) && isset($_P
 
 
 	signUp($signupEmail, $password, $_POST["signupName"], $_POST["signupBUEmail"]);
-	//connect to MariaDB
+	//connect to MariaDB, since I'm cool
 }
 
 if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_POST["loginEmail"]) && !empty(["loginPassword"])) {

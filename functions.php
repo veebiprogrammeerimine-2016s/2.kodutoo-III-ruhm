@@ -3,22 +3,7 @@ require("config.php");
 //for using $_SESSION stuff
 //in all files that are connected with functions.php
 session_start();
-/*
-function sum($x, $y) {
-	$answer = $x+$y;
-	return $answer;
-}
 
-function hello($name, $surname){
-	$answer = "Welcome, ".$name." ".$surname."!";
-	return $answer;
-}
-
-echo sum(123123123,1412414124);
-echo "<br>";
-
-echo hello("Mihkel", "Põder");
-*/
 $db = "logindb";
 function login($email, $password){
 $mysqli = new mysqli(
@@ -48,7 +33,7 @@ $stmt->execute();
 if ($stmt->fetch()) {
 	$hash = hash("sha512", $password);
 	if ($hash == $passwordFromDb) {
-		echo "User with ID ".$id." logged in.";
+		//echo "User with ID ".$id." logged in.";
 		$_SESSION["userId"] = $id;
 		$_SESSION["userEmail"] = $emailFromDb;
 		header("Location: data.php");
@@ -64,7 +49,6 @@ if ($stmt->fetch()) {
 
 
 function signUp($email, $password, $displayname, $backupemail){
-	echo("IS IT WORKING 2");
 	$mysqli = new mysqli(
 	$GLOBALS["serverHost"],
 	$GLOBALS["serverUsername"],
@@ -73,7 +57,6 @@ function signUp($email, $password, $displayname, $backupemail){
 	);
 
 	echo $mysqli->error;
-	echo("what");
 	$stmt = $mysqli->prepare("INSERT INTO user_db_1 (email, password) VALUES (?, ?)");
 	// s - string
 	// i - int
@@ -90,7 +73,6 @@ function signUp($email, $password, $displayname, $backupemail){
 }
 
 function saveNote($note, $color){
-	echo("IS IT WORKING 2");
 	$mysqli = new mysqli(
 	$GLOBALS["serverHost"],
 	$GLOBALS["serverUsername"],
@@ -99,7 +81,6 @@ function saveNote($note, $color){
 	);
 
 	echo $mysqli->error;
-	echo("what");
 	$stmt = $mysqli->prepare("INSERT INTO colornotes (note, color) VALUES (?, ?)");
 	// s - string
 	// i - int
@@ -112,7 +93,6 @@ function saveNote($note, $color){
 	}
 	echo $mysqli->error;
 	$mysqli->close();
-	echo("I REACHED IT");
 }
 
 
