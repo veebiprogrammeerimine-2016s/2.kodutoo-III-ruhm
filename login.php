@@ -13,19 +13,19 @@
 	$signupEmailError = "";
 	$signupEmail = "";
 	
-	//kas on üldse olemas
+	//kas on Ã¼ldse olemas
 	if (isset ($_POST["signupEmail"])) {
 		
 		// oli olemas, ehk keegi vajutas nuppu
-		// kas oli tühi
+		// kas oli tÃ¼hi
 		if (empty ($_POST["signupEmail"])) {
 			
-			//oli tõesti tühi
-			$signupEmailError = "See väli on kohustuslik";
+			//oli tÃµesti tÃ¼hi
+			$signupEmailError = "See vÃ¤li on kohustuslik";
 			
 		} else {
 				
-			// kõik korras, email ei ole tühi ja on olemas
+			// kÃµik korras, email ei ole tÃ¼hi ja on olemas
 			$signupEmail = $_POST["signupEmail"];
 		}
 		
@@ -33,24 +33,24 @@
 	
 	$signupPasswordError = "";
 	
-	//kas on üldse olemas
+	//kas on Ã¼ldse olemas
 	if (isset ($_POST["signupPassword"])) {
 		
 		// oli olemas, ehk keegi vajutas nuppu
-		// kas oli tühi
+		// kas oli tÃ¼hi
 		if (empty ($_POST["signupPassword"])) {
 			
-			//oli tõesti tühi
-			$signupPasswordError = "See väli on kohustuslik";
+			//oli tÃµesti tÃ¼hi
+			$signupPasswordError = "See vÃ¤li on kohustuslik";
 			
 		} else {
 			
-			// oli midagi, ei olnud tühi
+			// oli midagi, ei olnud tÃ¼hi
 			
-			// kas pikkus vähemalt 8
+			// kas pikkus vÃ¤hemalt 8
 			if (strlen ($_POST["signupPassword"]) < 8 ) {
 				
-				$signupPasswordError = "Parool peab olema vähemalt 8 tm pikk";
+				$signupPasswordError = "Parool peab olema vÃ¤hemalt 8 tm pikk";
 				
 			}
 			
@@ -58,12 +58,18 @@
 		
 	}
 	
+	$loginEmail = "";
+		if (isset ($_POST["loginEmail"])) {
+			if (!empty ($_POST["loginEmail"])) {
+				$loginEmail = $_POST["loginEmail"];	
+			}	
+		}
 	
 	$gender = "";
 	if(isset($_POST["gender"])) {
 		if(!empty($_POST["gender"])){
 			
-			//on olemas ja ei ole tühi
+			//on olemas ja ei ole tÃ¼hi
 			$gender = $_POST["gender"];
 		}
 	}
@@ -74,14 +80,14 @@
 		 empty($signupPasswordError)
 	   ) {
 		
-		// ühtegi viga ei ole, kõik vajalik olemas
+		// Ã¼htegi viga ei ole, kÃµik vajalik olemas
 		echo "salvestan...<br>";
 		echo "email ".$signupEmail."<br>";
 		echo "parool ".$_POST["signupPassword"]."<br>";
 		
 		$password = hash("sha512", $_POST["signupPassword"]);
 		
-		echo "räsi ".$password."<br>";
+		echo "rÃ¤si ".$password."<br>";
 		
 		//kutsun funktsiooni, et salvestada
 		signup($signupEmail, $password);
@@ -90,7 +96,7 @@
 	
 	
 	$notice = "";
-	// mõlemad login vormi väljad on täidetud
+	// mÃµlemad login vormi vÃ¤ljad on tÃ¤idetud
 	if (	isset($_POST["loginEmail"]) && 
 			isset($_POST["loginPassword"]) && 
 			!empty($_POST["loginEmail"]) && 
@@ -113,7 +119,7 @@
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input name="loginEmail" type="email">
+			<input name="loginEmail" type="email" value="<?php echo $loginEmail ?>"> 
 			
 			<br><br>
 			
@@ -122,7 +128,7 @@
 						
 			<br><br>
 			
-			<input type="submit">
+			<input type="submit" value="Log in"> 
 		
 		</form>
 		
