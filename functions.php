@@ -78,7 +78,7 @@
 		return $notice;
 	}
 	
-	function saveFeedback($note, $color) {
+	function saveFeedback($username, $feedback) {
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"],
 					$GLOBALS["serverUsername"],
@@ -86,11 +86,11 @@
 					$GLOBALS["database"]
 					);
 		$stmt = $mysqli->prepare("
-		INSERT INTO colorNotes(note, color) VALUES(?, ?)
+		INSERT INTO feedback(username, feedback) VALUES(?, ?)
 		");
 		// s, i, d
 		echo $mysqli->error;
-		$stmt->bind_param("ss", $note, $color);
+		$stmt->bind_param("ss", $username, $feedback);
 		
 		if ($stmt -> execute() ) {
 				echo "salvestamine onnestus";
@@ -109,18 +109,18 @@
 			);
 			
 		$stmt = $mysqli->prepare("
-			SELECT id, note, color
-			FROM colorNotes
+			SELECT id, username, feedback
+			FROM feedback
 		");
 		
-		$stmt->bind_result($id, $note, $color);
+		$stmt->bind_result($id, $username, $feedback);
 		$stmt->execute();
 		$result = array();
 		while($stmt->fetch()) {
 			$object = new StdClass();
 			$object->id = $id;
-			$object->note = $note;
-			$object->noteColor = $color;
+			$object->username = $username;
+			$object->feedback = $feedback;
 			
 
 			array_push($result, $object);

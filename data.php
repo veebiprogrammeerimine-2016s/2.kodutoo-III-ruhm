@@ -1,9 +1,8 @@
 ﻿<?php
 	
 	require("functions.php");
-	
+	require("styles.css");
 	$Feedback = "";
-	$Color = "";
 	if(!isset ($_SESSION["userId"])) {
 		header("Location: register.php");
 		exit();
@@ -18,15 +17,12 @@
 		exit();
 	}
 	// ei ole tuhjad
-	if (isset($_POST['note']) &&
-		isset($_POST['color']) &&
-		!empty($_POST['note']) &&
-		!empty($_POST['color'])){
+	if (isset($_POST['feedback']) &&
+		!empty($_POST['feedback'])){
 			
-			$Note = $_POST['note'];
-			$Color = $_POST['color'];
-			$Note = cleanInput($Note, $Color)
-			saveFeedback($Note, $Color);
+			$Feedback = $_POST['feedback'];
+			$Feedback = cleanInput($Feedback);
+			saveFeedback($_SESSION["username"], $Feedback);
 			header("Location: data.php");
 			exit();
 		}
@@ -49,35 +45,22 @@
 		<p>Profile created: <?=$_SESSION["created"];?></p>
 		<p><a href="?logout=1">Log out</a></p>
 
-		<h2>Submit feedback</h2>
+		<h2>Send feedback</h2>
 			<form method="POST">
 			<label>Feedback</label><br>
 			<textarea name="feedback"><?php $Feedback ?></textarea><br> 
-			<label>Color</label><br>
-			<input type="color" name="color" value="<?php $Color?>">
 			<br><br>
 			<input type="submit" value="Submit">
 			</form>
 		<br><br>
 		</form>
-		<h2>Archive</h2>
-		<?php 
-			foreach ($feedback as $f) {
-				
-				$style = "width:100px;
-							float:left;
-							min-height:50px; 
-							border: 1px solid gray;
-							background-color: ".$n->noteColor.";";
-				
-				echo "<p style='	".$style."	'>".$f->note."</p>";
-			}
-		?>
+
 		
 		<h2 style="clear:both;">Tabel</h2>
+		<div class="table">
 		<?php
 			
-			$html = "<table border=1>";
+			$html = "<table>";
 				$html .= "<tr>";
 					$html .= "<th>Username</th>";
 					$html .= "<th>Feedback</th>";
@@ -85,14 +68,15 @@
 				$html .= "</tr>";
 			foreach($feedback as $f) {
 				$html .= "<tr>";
-					$html .= "<td>".$_SESSION["username"]->Username."</td>";
-					$html .= "<td>".$f->Feedback."</td>";
+					$html .= "<td>".$f->username."</td>";
+					$html .= "<td>".$f->feedback."</td>";
 				$html .= "</tr>";
 			}
 			$html .= "</table>";
 			
 			echo $html;
 		?>
+		</div>
 	</body>
 
 </html>
