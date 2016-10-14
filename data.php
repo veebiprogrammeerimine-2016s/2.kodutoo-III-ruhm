@@ -30,12 +30,31 @@ echo "</pre>";
 ?>
 
 
-
-<h1>My extra-mega-secure website</h1>
-<p>Welcome, <?=$_SESSION["userEmail"]?>.
-<a href="?logout=1">Log out</a>
-</p>
-	<h1>Enter some notes!</h1>
+<!doctype html>
+<style>
+    body {
+        font-family: Roboto;
+        color: black;
+    }
+    h1 {
+        font-weight: 200;
+        color: DarkSlateGray;
+        font-size: 300%
+    }
+    h2 {
+        font-weight: 300;
+        color: DarkSlateGray;
+        font-size: 180%
+    }
+    legend {
+        color: DarkSlateGray;
+        font-weight: 500;
+    }
+</style>
+<head><title>My extra-mega-secure website, yo</title></head>
+<p style="text-align: right"><a href="?logout=1">Log out</a></p>
+<h1>Welcome, <?=$_SESSION["userEmail"]?>.</h1>
+	<h2>Enter some notes!</h2>
 	<fieldset>
 	<legend>Enter notes!</legend>
 	<form method="POST">

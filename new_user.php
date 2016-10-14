@@ -4,9 +4,23 @@ if (isset($_GET["back"])) {
 
 
 ?>
-
-<h1 style="text-align:center; font-family: Roboto; font-weight: 100; font-size: 300%">Welcome to the club!</h1>
-<p style="text-align:center; font-family: Roboto; font-weight: 250; font-size: 125%">
+<style>
+    body {
+        text-align: center;
+        font-family: Roboto;    
+        color: DarkSlateGray;
+    }
+    h1 {
+        font-size: 300%;
+        font-weight: 100;
+        }
+    p {
+        font-size: 125%;
+        font-weight: 250;
+    }
+</style>
+<h1 >Welcome to the club!</h1>
+<p>
 Your new user has been created. Feel free to log in now.<br>
 <a href="?back=1">Go back or click this link to return.</a>
 </p>

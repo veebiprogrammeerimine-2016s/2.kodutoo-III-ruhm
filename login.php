@@ -108,8 +108,9 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
             }
             h1 {
                 font-family: Roboto; 
-                font-weight: 400;
+                font-weight: 200;
                 color: DarkSlateGray;
+                font-size: 300%
             }
             legend {
                 font-weight: 500;
