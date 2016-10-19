@@ -109,17 +109,30 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
             h1 {
                 font-family: Roboto; 
                 font-weight: 200;
-                color: DarkSlateGray;
-                font-size: 300%
+                color: white;
+                background-color: DarkSlateGray;
+                font-size: 300%;
+                text-align: center;
+                margin: 0px;
             }
+            h2 {
+                margin-top: 4px;
+                margin-bottom: 4px;
+                font-family: Roboto;
+                font-weight: 300;
+                color: White;
+                background-color:DarkSlateGray;
+                padding: 4px;
+                text-align:center;
+                font-size: 180%
             legend {
                 font-weight: 500;
             }
 		</style>
 	</head>
 	<body>
-        
-		<h1>Log into the system</h1>
+        <h1>My awesome website for some reasons</h1>
+		<h2 style="margin-top:0px;">Log into the system</h2>
 		<fieldset>
 		<legend>Login information</legend>
 		<form method="POST">
@@ -135,7 +148,7 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 		</form>
 		</fieldset>
 
-		<h1>Create a user</h1>
+		<h2>Create a user</h2>
 		<fieldset>
 		<legend>Information for creating a user</legend>
 		<form method="POST">
@@ -163,7 +176,7 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 		</form>
 		</fieldset>
 
-		<h1>Forgot your password?</h1>
+		<h2>Forgot your password?</h2>
 		<fieldset>
 		<legend>Email information</legend>
 		<p>Please be notified of the following things:<br> * Password retrieving by email is not operational as of yet;<br> * Our servers do not store your password, therefore a new password must be generated.
