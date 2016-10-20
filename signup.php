@@ -120,14 +120,37 @@ $signupEmailError = "";
 <!DOCTYPE html>
 <html>
 	<head>
+	<style>
+
+	input[type="submit"] {
+
+		padding: 12px 20px;
+		margin: 8px 0;
+		box-sizing: border-box;
+		border: none;
+		background-color: #F08080;
+		color: white;
+	}
+	
+
+	input {
+
+		padding: 12px 20px;
+		margin: 8px 0;
+		box-sizing: border-box;
+		border: none;
+		border-bottom: 2px solid LightBlue;
+	}
+
 		<title>Sisselogimise leht</title>
+	</style>
 	</head>
 	<body>
-
-		<h1>Logi sisse</h1>
+	
+		<h1 style="text-align:center;">Logi sisse</h1>
 		
 		
-		<form method="POST">
+		<form method="POST" style="text-align:center;">
 			
 			<input placeholder="Kasutaja" name="loginUsername" type="text">
 			
@@ -141,23 +164,24 @@ $signupEmailError = "";
 			<input type="submit">
 			
 		
-		</form>
 
+		</form>
+	
 	</body>
 </html>
 
 
 <html>
-	<head>
-		<title>Sisselogimise leht</title>
-	</head>
+
 	<body>
 
-		<h1>Loo kasutaja</h1>
+	<br><br><br><br>
+
+		<h1 style="text-align:center;">Loo kasutaja</h1>
 		
 		
-		<form method="POST">
-			<label>Eesnimi</label><br>
+		<form method="POST" style="text-align:center;">
+			<label>Eesnimi</label><br> 
 			<input name="Firstname" type="text"> 	
 
 			<br><br>
@@ -186,6 +210,6 @@ $signupEmailError = "";
 				<input type="submit" value="Loo kasutaja">
 		
 		</form>
-
+	
 	</body>
 </html>

@@ -190,6 +190,27 @@ function saveUserInterest ($interest) {
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 
 	$stmt = $mysqli->prepare("
+		SELECT id FROM user_interests 
+		WHERE user_id=? AND interest_id=?
+		");
+	echo $mysqli->error;
+	$stmt->bind_param("ii", $_SESSION["userId"], $interest);
+
+	$stmt->execute();
+
+	//kas oli olemas
+	if ($stmt->fetch()) {
+
+		//oli olemas, ei salvesta
+		echo "Juba olemas";	
+		return; //see katkestab funktsiooni, edasi ei loe koodi
+	}
+
+	//lähme edasi ja salvestamine
+	$stmt->close();
+
+
+	$stmt = $mysqli->prepare("
 		INSERT INTO user_interests 
 		(user_id, interest_id) VALUES (?, ?)
 		");
