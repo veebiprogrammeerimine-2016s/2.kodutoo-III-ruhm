@@ -3,8 +3,9 @@
 	require("functions.php");
 	require("styles.css");
 	$Feedback = "";
+	$notice = "";
 	if(!isset ($_SESSION["userId"])) {
-		header("Location: register.php");
+		header("Location: login.php");
 		exit();
 	}
 	
@@ -26,6 +27,11 @@
 			header("Location: data.php");
 			exit();
 		}
+	elseif (isset($_POST['feedback']) &&
+			empty($_POST['feedback'])){
+			$notice = "Insert text!";
+			}
+
 	
 	$feedback = getFeedback();
 	//echo "<pre>";
@@ -49,7 +55,7 @@
 			<form method="POST">
 			<label>Feedback</label><br>
 			<textarea name="feedback"><?php $Feedback ?></textarea><br> 
-			<br><br>
+			<p style="color:red;"><?php echo $notice; ?></p>
 			<input type="submit" value="Submit">
 			</form>
 		<br><br>
