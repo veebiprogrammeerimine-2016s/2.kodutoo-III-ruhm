@@ -1,0 +1,38 @@
+body {
+    background-color: white;
+    font-family: Roboto;
+    color: black;
+}
+
+h1 {
+    font-family: Roboto; 
+    font-weight: 200;
+    color: white;
+    background-color: DarkSlateGray;
+    font-size: 300%;
+    text-align: center;
+    margin: 0px;
+}
+h2 {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-family: Roboto;
+    font-weight: 300;
+    color: White;
+    background-color:DarkSlateGray;
+    padding: 4px;
+    text-align:center;
+    font-size: 180%
+}
+
+legend {
+    font-weight: 500;
+}
+
+header, footer {
+        color: white;
+        background-color: DarkSlateGray;
+        text-decoration: none;
+        clear: left;
+        text-align: center;
+    }

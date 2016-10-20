@@ -31,6 +31,9 @@ echo "</pre>";
 
 
 <!doctype html>
+<head>
+<link rel="stylesheet" type="text/css" href="mystyle.css"
+</head> 
 <style>
     body {
         font-family: Roboto;
@@ -103,7 +106,7 @@ echo "</pre>";
 <ul>
     
     <li><a class="active" href="data.php">Home</a></li>
-    <li><a href="news.php">News</a></li>
+    <li><a href="user.php">User</a></li>
     <li><a href="options.php">Options</a></li>
     <li style="float: right"><a href="?logout=1">Log out</a></li>
 </ul>

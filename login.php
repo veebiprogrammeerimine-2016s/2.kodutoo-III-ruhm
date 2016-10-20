@@ -129,6 +129,9 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
                 font-weight: 500;
             }
 		</style>
+<head>
+<link rel="stylesheet" type="text/css" href="mystyle.css>"
+</head> 
 	</head>
 	<body>
         <h1>My awesome website for some reasons</h1>
