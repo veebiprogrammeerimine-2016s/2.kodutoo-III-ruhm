@@ -1,7 +1,7 @@
 <?php
 
 	require("../../../config.php");
-	require("functions.php");
+	require("functions1.php");
 	
 	//var_dump($_GET);
 	//echo "<br>";
@@ -9,7 +9,7 @@
 	
 	//kui kasutaja on sisse loginud, siis suuna data lehele
 	if(isset ($_SESSION["userId"])) {
-		header("Location: data.php");
+		header("Location: data1.php");
 		exit();
 
 	}

@@ -1,10 +1,10 @@
 <?php
 	//et saada ligi sessioonile
-	require("functions.php");
+	require("functions1.php");
 
 	//ei ole sisseloginud, suunan login lehele
 	if(!isset ($_SESSION["userId"])) {
-		header("Location: signup.php");
+		header("Location: uus.php");
 		exit();
 
 	}
@@ -16,7 +16,7 @@
 
 		session_destroy();
 
-		header("Location: signup.php");
+		header("Location: uus.php");
 		exit();
 
 	}
@@ -38,7 +38,7 @@ if (isset($_POST["note"]) &&
 
 <h1>Data</h1>
 <p>
-	Tere tulemast <a href="user.php"><?=$_SESSION["userUsername"];?></a>!
+	Tere tulemast <?=$_SESSION["userUsername"];?>!
 	<a href="?logout=1">Logi välja</a>
 </p>
 
