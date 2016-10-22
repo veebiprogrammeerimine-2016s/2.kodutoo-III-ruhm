@@ -37,7 +37,7 @@
 			!empty($_POST["comment"]) 
 			
 	) {
-			var_dump($_POST);
+
 
 		saveNote($_POST["firstname"],$_POST["lastname"],$_POST["notebook"],$_POST["serialnumber"],
 				 $_POST["priority"],$_POST["note"],$_POST["color"],$_POST["comment"]);

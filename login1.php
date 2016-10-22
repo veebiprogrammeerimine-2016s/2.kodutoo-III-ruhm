@@ -155,7 +155,7 @@
 			
 			<label>E-post</label><br>
 			<p style="color:red;"></p>
-			<input name="loginEmail"  value="edgar.s95@hotmail.com" type="email"> <?php echo $loginEmailError; ?>
+			<input name="loginEmail" type="email" value="<?=$loginEmail;?>" > <?php echo $loginEmailError; ?>
 			
 			<br><br>
 			

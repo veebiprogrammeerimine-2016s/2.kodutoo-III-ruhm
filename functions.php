@@ -1,5 +1,7 @@
 <?php
-	require("config.php");
+	require_once("../config.php");
+	$database = "if16_edgar";
+	$mysqli = new mysqli($serverHost, $serverUsername, $serverPassword, $database);
 	
 	// functions.php
 	
