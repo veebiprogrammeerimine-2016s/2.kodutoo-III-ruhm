@@ -106,6 +106,7 @@
 		return $result;
 		
 	}
+	
 	function saveFPost($forumPost) {
 		
 		$mysqli = new mysqli(
