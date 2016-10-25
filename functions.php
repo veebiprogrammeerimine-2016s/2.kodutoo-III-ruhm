@@ -82,13 +82,13 @@
 		return $notice;
 	}
 	
-	function getAllNotes() {
+	function getAllFPosts() {
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"],  $GLOBALS["serverPassword"],  $GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("SELECT id, note, color FROM colorNotes");
+		$stmt = $mysqli->prepare("SELECT id, forumPost FROM forumPosts");
 		
-		$stmt->bind_result($id, $note, $color);
+		$stmt->bind_result($id, $forumPost);
 		$stmt->execute();
 		
 		$result = array();
@@ -98,8 +98,7 @@
 			
 			$object = new StdClass();
 			$object->id = $id;
-			$object->note = $note;
-			$object->noteColor = $color;
+			$object->forumPost = $forumPost;
 			
 			array_push($result, $object);
 		}
@@ -107,7 +106,7 @@
 		return $result;
 		
 	}
-	function saveNote($note, $color) {
+	function saveFPost($forumPost) {
 		
 		$mysqli = new mysqli(
 		
@@ -117,10 +116,10 @@
 		$GLOBALS["database"]
 		
 		);
-		$stmt = $mysqli->prepare("INSERT INTO colorNotes (note, color) VALUES (?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO forumPosts (forumPost) VALUES (?)");
 		echo $mysqli->error;
 		
-		$stmt->bind_param("ss", $note, $color );
+		$stmt->bind_param("s", $forumPost);
 		if ( $stmt->execute() ) {
 			echo "salvestamine õnnestus";	
 		} else {	
@@ -129,15 +128,11 @@
 		
 	}
 	
-	if (	isset($_POST["note"]) && 
-			isset($_POST["color"]) && 
-			!empty($_POST["note"]) && 
-			!empty($_POST["color"]) 
+	if (	isset($_POST["forumPost"]) && 
+			!empty($_POST["forumPost"])
 	) {
 		
-		$note = cleanInput($_POST["note"]);
-		
-		saveNote($note, $_POST["color"]);
+		$forumPost = cleanInput($_POST["forumPost"]);
 		
 	}
 	

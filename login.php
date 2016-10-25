@@ -17,6 +17,10 @@
 	$signupUsernameError = "";
 	$signupTelephone = "";
 	$signupTelephoneError = "";
+	$loginEmail = "";
+	$loginEmailError = "";
+	$loginPassword = "";
+	$loginPasswordError = "";
 	
 	//kas on üldse olemas
 	if (isset ($_POST["signupTelephone"])) {
@@ -103,6 +107,30 @@
 		
 		
 	}
+	
+	if (isset ($_POST["loginEmail"])) {
+		
+		if (empty ($_POST["loginEmail"])) {
+			
+			$loginEmailError = "Palun sisestage Email";
+			
+		} else {
+			
+			$loginEmail = $_POST["loginEmail"];
+			
+		}
+		
+	}
+	
+	if (isset ($_POST["loginPassword"])) {
+		
+		if (empty($_POST["loginPassword"])) {
+			
+			$loginPasswordError = "Palun sisestage parool";
+			
+		}
+		
+	}
 
 	
 	if ( isset($_POST["signupEmail"]) &&
@@ -157,12 +185,12 @@
 			
 			
 			<label>E-post</label><br>
-			<input name="loginEmail" type="email">
+			<input name="loginEmail" type="email" value="<?=$loginEmail;?>"> <?php echo $loginEmailError; ?>
 			
 			<br><br>
 			
 			<label>Parool</label><br>
-			<input name="loginPassword" type="password">
+			<input name="loginPassword" type="password"> <?php echo $loginPasswordError; ?>
 						
 			<br><br>
 			

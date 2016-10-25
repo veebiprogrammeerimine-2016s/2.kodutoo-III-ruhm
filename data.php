@@ -16,15 +16,17 @@
 		session_destroy();
 		
 		header("Location: login.php");
-		
+		exit();
 	}
 	
+	if (isset ($_POST["forumPost"]) &&
+		!empty($_POST["forumPost"])) {
+			
+			saveFPost(cleanInput($_POST["forumPost"]));
+			
+		}
 	
-	$notes = getAllNotes();
-
-	echo "<pre>";
-	var_dump($notes[1]->noteColor);
-	echo "</pre>";
+	$Posts = getAllFPosts();
 ?>
 
 <h1>Data</h1>
@@ -35,56 +37,39 @@
 
 
 
-<h2>Märkmed</h2>
+<h2>Postitused</h2>
 <form method="POST">
 			
-			<label>Märkus</label><br>
-			<input name="note" type="text">
+			<label>Postitus</label><br>
+			<textarea name="forumPost" rows="5" cols="40"></textarea>
 			
-			<br><br>
-			
-			<label>Värv</label><br>
-			<input name="color" type="color">
-						
 			<br><br>
 			
 			<input type="submit">
 		
 		</form>
 		
-<h2>Arhiiv</h2>
+<h2 style="clear:both;">Postituste table</h2>
 <?php
 
-	//iga liikme kohta massiivis
-	foreach ($notes as $n) {
-		
-		$style = "width:150px; min-height:200px; border: 1px solid gray; background-color:".$n->noteColor.";";
-		echo"<p style='".$style."'>".$n->note."</p>";
-		
-	}
-
-?>
-
-<h2 style="clear:both;">Tabel</h2>
-<?php
-	
 	$html = "<table>";
-		
-		$html .= "<tr>";
-			$html .= "<th>id</th>";
-			$html .= "<th>Märkus</th>";
-			$html .= "<th>Värv</th>";
-		$html .= "</tr>";
-	
-	foreach ($notes as $note) {
-		$html .= "<tr>";
-			$html .= "<td>".$note->id."</td>";
-			$html .= "<td>".$note->note."</td>";
-			$html .= "<td>".$note->noteColor."</td>";
-		$html .= "</tr>";
-	}
 
-	$html .= "</table>";
+		$html .="<tr>";
+		
+			$html .="<th>id</th>";
+			$html .="<th>Postitus</th>";
+		$html .="</tr>";
+
+	foreach ($Posts as $post) {
+		
+		$html .="<tr>";
+			$html .="<td>".$post->id."</td>";
+			$html .="<td>".$post->forumPost."</td>";
+		$html .="</tr>";
+				
+	}
+	
+	$html .="</table>";
 	
 	echo $html;
 
