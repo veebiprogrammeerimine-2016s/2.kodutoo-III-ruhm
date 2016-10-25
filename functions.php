@@ -2,7 +2,7 @@
 	// functions.php
 	require("../../config.php");
 	// et saab kasutada $_SESSION muutujaid
-	// kõigis failides mis on selle failiga seotud
+	// kÃµigis failides mis on selle failiga seotud
 	session_start();
 	
 	
@@ -10,7 +10,7 @@
 	
 	//var_dump($GLOBALS);
 	
-	function signup($email, $password) {
+	function signup($signupEmail, $password, $signupTelephone, $signupUsername) {
 		
 		$mysqli = new mysqli(
 		
@@ -20,12 +20,12 @@
 		$GLOBALS["database"]
 		
 		);
-		$stmt = $mysqli->prepare("INSERT INTO user_sample (email, password) VALUES (?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO user_sample (email, password, Telephone, username) VALUES (?, ?, ?, ?)");
 		echo $mysqli->error;
 		
-		$stmt->bind_param("ss", $email, $password );
+		$stmt->bind_param("ssis", $signupEmail, $password, $signupTelephone, $signupUsername );
 		if ( $stmt->execute() ) {
-			echo "salvestamine õnnestus";	
+			echo "salvestamine Ãµnnestus";	
 		} else {	
 			echo "ERROR ".$stmt->error;
 		}
@@ -49,7 +49,7 @@
 		// asendan ?
 		$stmt->bind_param("s", $email);
 		
-		// määran muutujad reale mis kätte saan
+		// mÃ¤Ã¤ran muutujad reale mis kÃ¤tte saan
 		$stmt->bind_result($id, $emailFromDb, $passwordFromDb, $created);
 		
 		$stmt->execute();
@@ -57,11 +57,11 @@
 		// ainult SLECTI'i puhul
 		if ($stmt->fetch()) {
 			
-			// vähemalt üks rida tuli
-			// kasutaja sisselogimise parool räsiks
+			// vÃ¤hemalt Ã¼ks rida tuli
+			// kasutaja sisselogimise parool rÃ¤siks
 			$hash = hash("sha512", $password);
 			if ($hash == $passwordFromDb) {
-				// õnnestus 
+				// Ãµnnestus 
 				echo "Kasutaja ".$id." logis sisse";
 				
 				$_SESSION["userId"] = $id;
@@ -75,7 +75,7 @@
 			}
 			
 		} else {
-			// ei leitud ühtegi rida
+			// ei leitud Ã¼htegi rida
 			$notice = "Sellist emaili ei ole!";
 		}
 		
@@ -122,7 +122,7 @@
 		
 		$stmt->bind_param("ss", $note, $color );
 		if ( $stmt->execute() ) {
-			echo "salvestamine õnnestus";	
+			echo "salvestamine Ãµnnestus";	
 		} else {	
 			echo "ERROR ".$stmt->error;
 		}
@@ -155,36 +155,4 @@
 		
 		return $input;
 	}
-	
-	
-	
-	
-	
-	/*function sum($x, $y) {
-		
-		$answer = $x+$y;
-		
-		return $answer;
-	}
-	
-	function hello($firstname, $lastname) {
-		
-		return 
-		"Tere tulemast "
-		.$firstname
-		." "
-		.$lastname
-		."!";
-		
-	}
-	
-	echo sum(123123789523,1239862345);
-	echo "<br>";
-	echo sum(1,2);
-	echo "<br>";
-	
-	$firstname = "Kristjan";
-	
-	echo hello($firstname, "L.");
-	*/
 ?>

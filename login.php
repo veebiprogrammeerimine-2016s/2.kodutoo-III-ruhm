@@ -25,6 +25,10 @@
 			
 			$signupTelephoneError = "See väli on kohustuslik";
 			
+		} else {
+			
+			$signupTelephone = $_POST["signupTelephone"];
+			
 		}
 		
 	}
@@ -68,6 +72,10 @@
 				
 				$signupPasswordError = "Parool peab olema vähemalt 8 tm pikk";
 				
+			} else {
+				
+				$signupPassword = cleanInput($_POST["signupPassword"]);
+				
 			}
 			
 		}
@@ -85,26 +93,25 @@
 				
 				$signupUsernameError = "Kasutajanimi peab olema vähemalt 6 tm pikk";
 				
+			} else {
+				
+				$signupUsername = cleanInput($_POST["signupUsername"]);
+				
 			}
 			
 		}
 		
 		
 	}
-	
-	
-	$gender = "";
-	if(isset($_POST["gender"])) {
-		if(!empty($_POST["gender"])){
-			
-			//on olemas ja ei ole tühi
-			$gender = $_POST["gender"];
-		}
-	}
+
 	
 	if ( isset($_POST["signupEmail"]) &&
 		 isset($_POST["signupPassword"]) &&
-		 $signupEmailError == "" && 
+		 isset($_POST["signupTelephone"]) &&
+		 isset($_POST["signupUsername"]) &&
+		 empty($signupEmailError) &&
+		 empty($signupUsernameError) &&
+		 empty($signupTelephoneError) &&
 		 empty($signupPasswordError)
 	   ) {
 		
@@ -116,9 +123,11 @@
 		$password = hash("sha512", $_POST["signupPassword"]);
 		
 		echo "räsi ".$password."<br>";
+		echo "kasutajanimi ".$signupUsername."<br>";
+		echo "telefon ".$signupTelephone."<br>";
 		
 		//kutsun funktsiooni, et salvestada
-		signup($signupEmail, $password);
+		signup($signupEmail, $password, $signupTelephone, $signupUsername);
 		
 	}	
 	
@@ -179,24 +188,6 @@
 			<input name="signupPassword" type="password"> <?php echo $signupPasswordError; ?>
 						
 			<br><br>
-			
-			<?php if ($gender == "male") { ?>
-				<input type="radio" name="gender" value="male" checked > Mees<br>
-			<?php } else { ?>
-				<input type="radio" name="gender" value="male"> Mees<br>
-			<?php } ?>
-			
-			<?php if ($gender == "female") { ?>
-				<input type="radio" name="gender" value="female" checked > Naine<br>
-			<?php } else { ?>
-				<input type="radio" name="gender" value="female"> Naine<br>
-			<?php } ?>
-			
-			<?php if ($gender == "other") { ?>
-				<input type="radio" name="gender" value="other" checked > Muu<br>
-			<?php } else { ?>
-				<input type="radio" name="gender" value="other"> Muu<br>
-			<?php } ?><br>
 			
 			<label>Telefon</label><br>
 			<input name="signupTelephone" type="tel"> <?php echo $signupTelephoneError; ?>
