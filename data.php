@@ -15,18 +15,27 @@
 		
 		session_destroy();
 		
-		header("Location: lehekülguuendat.php");
+		header("Location: minu lehekülg.php");
 		exit();
 		
 	}
-	if (	isset($_POST["note"]) && 
-			isset($_POST["color"]) && 
-			!empty($_POST["note"]) && 
-			!empty($_POST["color"]) 
+	//kontrollin kas on olemas profession ja location jms.
+	if (	isset($_POST["profession"]) && 
+			isset($_POST["location"]) && 
+			isset($_POST["money"]) && 
+			isset($_POST["color"]) &&
+			isset($_POST["note"]) &&
+			!empty($_POST["profession"]) && 
+			!empty($_POST["location"]) && 
+			!empty($_POST["money"]) && 
+			!empty($_POST["color"])&& 
+			!empty($_POST["note"])
+			
 	) {
 		$note = cleanInput ($_POST["note"]);
 		
-		saveNote($note, $_POST["color"]);
+		//muuda savenote fun
+		saveNote($_POST["profession"], $_POST["location"], $_POST["money"], $_POST["color"], $_POST["note"] );
 		
 	}
 	
@@ -35,29 +44,25 @@
 ?>
 
 <h1>Data</h1>
-<p syle="color: blue;">Tere tulemast <?=$_SESSION["userEmail"];?>!
+<p style="color: blue;">Tere tulemast <a href="user,php.php"><?=$_SESSION["userEmail"];?></a>!
 	<a href="?logout=1">Logi välja</a>
 </p>
 
-
-
 <h2>Sisesta mõned andmed</h2>
-
-
 
 <form method="POST">
 
 <label> Millist teenust pakkud? <label><br>
-			<select>
-				<option value= "torumees"> Torumees</option>
-				<option value= "elektrik"> Elektrik</option>
-				<option value= "koristaja"> Koristaja</option>
-				<option value= "it-tugi"> IT-tugi</option>
+			<select name="profession" >
+				<option value= "plumber"> Torumees</option>
+				<option value= "electrician"> Elektrik</option>
+				<option value= "cleaner"> Koristaja</option>
+				<option value= "it-support"> IT-tugi</option>
 			</select>
 			
 			<br><br>
 <label> Millises linnaosas? <label><br>
-			<select>
+			<select name= "location">
 				<option value= "kristiine"> Kristiine</option>
 				<option value= "viimsi"> Viimsi</option>
 				<option value= "pirita"> Pirita</option>
@@ -72,11 +77,22 @@
 			
 			<br><br>
 			
-    <label>Millistel kellaaegadel töötad?</label>
-	<time datetime="2011-04-02">2nd</time> - <time datetime="2011-04-04">4th April 2011</time>
 			
-	<label>Märkus</label><br>
+	<label>Keskmine tunnitasu</label><br>
+	<input type="range" name="money" min="0" max="15"  onchange="updateTextInput(this.value);">
+	<input type="text" id="textInput" value="">
+	<script>
+		function updateTextInput(val) {
+          document.getElementById('textInput').value=val; 
+        }
+	</script>
+	
+	<br><br>
+	
+	<label>Kirjelda ennast paari sõnaga:</label><br>
 	<input name="note" type="text">
+	
+	<br><br>
 	
 	<br><br>
 	
@@ -101,7 +117,7 @@
 				float: left;
 				border: 1px solid gray;
 				background-color: ".$n->noteColor.";";
-	echo "<p style=' ".$style." '>".$n->note."</p>";
+	echo "<p style=' ".$style." '>".$n->note ."</p>";
 	
  }
  ?>
@@ -112,16 +128,23 @@
 	
 		$html .= "<tr>";
 			$html .= "<th>id</th>";
-			$html .= "<th>Märkus</th>";
+			$html .= "<th>Teenus</th>";
+			$html .= "<th>Linnaosa</th>";
+			$html .= "<th>Eur/h</th>";
+			$html .= "<th>Kirjeldus<th>";
 			$html .= "<th>Värv</th>";
 		$html .= "</tr>";
 		
 	
 	foreach ($notes as $note) {
 		$html .="<tr>";
-		$html .="<td>" .$note ->id ."</td>";
-		$html .="<td>" .$note ->note . "</td>";
-		$html .="<td>".$note ->noteColor. "</td>";
+		$html .="<td>".$note ->id."</td>";
+		$html .="<td>".$note ->profession."</td>";
+		$html .="<td>".$note ->location."</td>";
+		$html .="<td>".$note ->money."</td>";
+		$html .="<td>".$note ->note."</td>";
+		$html .="<td>".$note ->noteColor."</td>";
+		
 		$html .="</tr>";
 	}
 	$html .= "</table>";

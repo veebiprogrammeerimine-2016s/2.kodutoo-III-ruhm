@@ -170,73 +170,154 @@
 	<head>
 		<title>Sisselogimise leht</title>
 		<style type ="text/css">
+	
 		h1 {
-			font family: "Palatino Linotype", "Book Antiqua",
-			Palatino, serif;}
+			border-style: double;
+			text-align: center;
+			font-family: 'Goudy Old Style', Garamond, 
+			'Big Caslon', 'Times New Roman', serif;
+			font-size:43px;
+			color: #00b3b3;
+			}
 		</style>
 	</head>
 	
 	<body>
-
-		<h1>Logi sisse</h1>
+	
+		<h1> Tere tulemast Töömehe Abisse versioon 1.1!</h1>
+		
+		<style type ="text/css">
+	
+		h2 {
+			text-align: center;
+			color: #00b3b3;
+		}
+		</style>
+		<h2>Logi sisse</h2>
 		
 		<form method="POST"> 
 				<p style="color:red;"><?php echo $notice; ?></p>
-
-			<label>E-post</label><br>
+		
+			<label>
 			<input name= "loginemail" type= "email" value="<?php echo $loginemail;?>" > <?php echo $loginemailError; ?>
+			<div class="required">E-post:</div>
+			</label>
 			
 			
-			<br><br>
+			<label>
+			<input name="loginpassword" type="password" value="<?php echo $loginpassword;?>" /> <?php echo $loginpasswordError; ?>
+			<div class="required">Parool: </div>
+			</label>
 			
-			<label>Parool</label><br>
-			<input name="loginpassword" type="password" value="<?php echo $loginpassword;?>" > <?php echo $loginpasswordError; ?>
-			
-			<br><br>
-			
-			<input type= "submit">
+			<button>Esita</button>
 			
 		</form>
 
 	</body>
 </html>
-		<h1>Loo kasutaja</h1>
+		<h2>Loo kasutaja</h2>
 		
 		<form method="POST"> 
-		
-			<label>Eesnimi: </label><br>
-			<input type= "text" name="firstname" class="required"><br>
-			<label>Perekonnanimi: </label><br>
-			<input type="text" name="lastname" class="required" >
+		<style type ="text/css">
+		body {
+			background-color:#ccffff;
+			font-family: "Open Sans", Helvetica;
+		}
+		label {
+			display: block;
+			letter-spacing: 4px;
+			padding-top: 30px;
+			text-align: center;
+		}
+		label .required {
+			color:  #00b3b3;
+			cursor: text;
+			font-size: 20px;
+			line-height: 20px;
+			text-transform: uppercase;
+			transform: translateY(-34px);
+			transition: all 0.3s;
+		}
+		label input {
+		background-color: transparent;
+		border: 0;
+		border-bottom: 2px solid  #000000;
+		color: black;
+		font-size: 28px;
+		letter-spacing: -1px;
+		outline: 0;
+		padding: 5px 20px;
+		text-align: center;
+		transition: all 0.3a;
+		width: 250px;
+		}
+		label input:focus {
+		width: 300px;
+		}
+		label input:focus + .required {
+		color: #F0F0F0;
+		 font-size: 10px;
+		 transform: translateY(-74px);
+        }
+		label input.value-exists + .required {
+		font-size: 2px;
+		transform: translateY(-100px);
+		}
+		button {
+		background-color: #006666;
+		border: 2px solid white;
+		border-radius: 23px;
+		color: white;
+		cursor: pointer;
+		font-size: 20px;
+		margin-top: 20px;
+		padding: 15px 30px;
+		text-transform: uppercase;
+		transition: all 200ms;
+		align: center;
+		}
+		button:hover, button:focus {
+		background-color: white;
+		color: #333333;
+		outline: 0;
+		}
+		</style>
+			<label>
+			<input type= "text" name="firstname" />
+			<div class="required">Eesnimi:</div>
+			</label>
+	
+			<label>
+			<input type="text" name="lastname" />
+			<div class="required">Perekonnanimi:</div>
+			</label>
 			
-			<br><br>
-			
-			
-
-			
-			<label>Sisesta oma sünnikuupäev </label><br>
+	
+			<label>
 			<input type="date" name="birthday">
+			<div class="required">Sünnikuupäev:</div>
+			</label>
 			
-			<br><br>
 			
-			<label>Sisesta oma sugu</label><br>
+			<label>
 			<input type="radio" name="gender" value="male" checked> Mees<br>
 			<input type="radio" name="gender" value="female"> Naine<br>
+			<div class="required">Sinu sugu:</div>
+			</label>
 			
-			<br><br>
-			
-			<label>Sisesta oma e-mail</label><br>
+			<label>
 			<input name= "signupEmail" type= "email" value="<?php echo $signupEmail;?>" > <?php echo $signupEmailError; ?>
+			<div class="required">Sinu email:</div>
+			</label>
+		
 			
-			<br><br>
-			
-			<label>Loo parool</label><br>
+			<label>
 			<input name="signupPassword" type="password"> <?php echo $signupPasswordError;?>
+			<div class="required">Loo parool:</div>
+			</label>
 			
-			<br><br>
 			
-			
-			<input type= "submit" value="Loo kasutaja->">
+			<button>Loo kasutaja-></button>
 			
 		</form>
 
