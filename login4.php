@@ -54,12 +54,12 @@
 			
 		}
 	}
-	$nrError = "";
+	$creditcardnrError = "";
 	
-	if (isset ($_POST["nr"])) {
-		
-		if (empty($_POST["nr"])) {
-			$nrError = "See väli on kohustuslik";
+	if (isset ($_POST["creditcardnr"])) {
+	
+		if (empty($_POST["creditcardnr"])) {
+			$creditcardnrError = "See väli on kohustuslik";
 		}
 		
 	}
@@ -71,50 +71,43 @@
 			$cscnrError = "See väli on kohustuslik";
 		}
 	}
-	$tanavError = "";
+	$streetError = "";
 	
-	if (isset($_POST["tanav"])) {
+	if (isset($_POST["street"])) {
 		
-		if (empty($_POST["tanav"])) {
-			$tanavError = "See väli on kohustuslik";
+		if (empty($_POST["street"])) {
+			$streetError = "See väli on kohustuslik";
 		}
 	}
-	$linnvaldError = "";
+	$cityError = "";
 	
-	if (isset($_POST["linn/vald"])) {
+	if (isset($_POST["city"])) {
 		
-		if (empty($_POST["linn/vald"])) {
-			$linnvaldError = "See väli on kohustuslik";
+		if (empty($_POST["city"])) {
+			$cityError = "See väli on kohustuslik";
 		}
 	}
-	$postiindeksError = "";
+	$postalcodeError = "";
 	
-	if (isset($_POST["postiindeks"])) {
+	if (isset($_POST["postalcode"])) {
 		
-		if (empty($_POST["postiindeks"])) {
+		if (empty($_POST["postalcode"])) {
 			$postiindeksError = "See väli on kohustuslik";
 		}
 	}
-	$gender = "";
-	if(isset($_POST["gender"])) {
-		if(!empty($_POST["gender"])){
-			
-			//on olemas ja ei ole tühi
-			$gender = $_POST["gender"];
-		}
-	}
+	
 	
 	if (isset($_POST["signupEmail"]) &&
 		isset($_POST["signupPassword"]) &&
-		isset($_POST["nr"]) &&
+		isset($_POST["creditcardnr"]) &&
 		isset($_POST["cscnr"]) &&
-		isset($_POST["tanav"]) &&
-		isset($_POST["linn/vald"]) &&
-		isset($_POST["postiindeks"]) &&
-		$tanavError == "" &&
-		$linnvaldError == "" &&
-		$postiindeksError == "" &&
-		$nrError == "" &&
+		isset($_POST["street"]) &&
+		isset($_POST["city"]) &&
+		isset($_POST["postalcode"]) &&
+		$streetError == "" &&
+		$cityError == "" &&
+		$postalcodeError == "" &&
+		$creditcardnrError == "" &&
 		$cscnrError == "" &&
 		$signupEmailError == "" && 
 		empty($signupPasswordError)
@@ -124,15 +117,18 @@
 		// ühtegi viga ei ole, kõik vajalik olemas.
 		echo "salvestan...<br>";
 		echo "email ".$signupEmail."<br>";
-		echo "parool ". $_POST["signupPassword"]."<br>";
+		//echo "parool ". $_POST["signupPassword"]."<br>";
 		
 		$password = hash("sha512", $_POST["signupPassword"]);
 		
-		echo "räsi ".$password."<br>";
+		//echo "räsi ".$password."<br>";
 		
 		//kutsun functiooni, et salvestada
 		
-		signup($signupEmail, $password);
+		signup(
+		cleanInput($_POST["signupEmail"]), cleanInput($_POST["signupPassword"]), 
+		cleanInput($_POST["creditcardnr"]), cleanInput($_POST["cscnr"]), 
+		cleanInput($_POST["street"]), cleanInput($_POST["city"]), cleanInput($_POST["postalcode"]));
 		
 		
 	}
@@ -149,6 +145,7 @@
 <html style=" width: 100%; height: 100%;">
 	<head>
 		<title>Sisselogimis leht</title>
+		
 	</head>
 	<body style=" width: 100%; height: 100%; background-position: center center; background-repeat:no-repeat; background-size: cover;" background="https://farm1.staticflickr.com/691/20664938416_4e4b224684_h.jpg">
 
@@ -180,37 +177,21 @@
 			
 			<input placeholder="Parool" name="signupPassword" type="password"> <?php echo $signupPasswordError; ?>
 			<br><br>
-			<?php if ($gender == "male") { ?>
-				<input type="radio" name="gender" value="male" checked> Mees<br>
-			<?php } else { ?>
-				<input type="radio" name="gender" value="male" > Mees<br>
-			<?php } ?>
 			
-			<?php if ($gender == "female") { ?>
-				<input type="radio" name="gender" value="female" checked> Naine<br>
-			<?php } else { ?>
-				<input type="radio" name="gender" value="female"> Naine<br>
-			<?php } ?>
-			
-			<?php if ($gender == "other") { ?>
-				<input type="radio" name="gender" value="other" checked> Muu<br><br>
-			<?php } else { ?>
-				<input type="radio" name="gender" value="other"> Muu<br><br>
-			<?php } ?>
 			
 			Krediitkaardiinfo
 			<br><br>
-			<input placeholder="Krediitkaardi nr." name="nr" type="number"> <?php echo $nrError; ?>
+			<input placeholder="Krediitkaardi nr." name="creditcardnr" type="number"> <?php echo $creditcardnrError; ?>
 			<br><br>
 			<input placeholder="CSC" name="cscnr" type="number"> <?php echo $cscnrError; ?>
 			<br><br>
 			Aadress
 			<br><br>
-			<input placeholder="Tänav" name="tanav" type="text"> <?php echo $tanavError; ?>
+			<input placeholder="Tänav" name="street" type="text"> <?php echo $streetError; ?>
 			<br><br>
-			<input placeholder="Linn/vald" name="linn/vald"  type="text"> <?php echo $linnvaldError; ?>
+			<input placeholder="Linn/vald" name="city"  type="text"> <?php echo $cityError; ?>
 			<br><br>
-			<input placeholder="Postiindeks" name="postiindeks" type="text"> <?php echo $postiindeksError; ?>
+			<input placeholder="Postiindeks" name="postalcode" type="text"> <?php echo $postalcodeError; ?>
 			<br><br>
 			<input type="submit" value="Loo kasutaja">
 		
