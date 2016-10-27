@@ -1,5 +1,7 @@
 <?php
 
+												//Tuli ette error mida ei osanud lõpuks parandada :: error Column 'street' cannot be null :: error tuli kui teha uut kasutajat.
+
 	require("../../config.php");
 	require("functions.php");
 	
