@@ -9,7 +9,7 @@
 	$story = "";
 
 	if (empty ($_POST["story"])) {
-		$storyError = "you have to write a fucking stroy";
+		$storyError = "you have to write something";
 	}
 
 
