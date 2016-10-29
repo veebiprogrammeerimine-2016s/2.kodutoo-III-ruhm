@@ -11,7 +11,7 @@
 	//var_dump($_POST);
 		
 	$signupEmailError = "";
-	$signupEmail = "";
+	$signupEmailEmail = "";
 	
 	//kas on üldse olemas
 	if (isset ($_POST["signupEmail"])) {
@@ -26,7 +26,7 @@
 		} else {
 				
 			// kõik korras, email ei ole tühi ja on olemas
-			$signupEmail = $_POST["signupEmail"];
+			$signupEmail = $_POST["loginEmail"];
 		}
 		
 	}
@@ -45,16 +45,9 @@
 			$signupPasswordError = "See väli on kohustuslik";
 			
 		} else {
-			
-			// oli midagi, ei olnud tühi
-			
-			// kas pikkus vähemalt 8
-			if (strlen ($_POST["signupPassword"]) < 8 ) {
 				
-				$signupPasswordError = "Parool peab olema vähemalt 8 tm pikk";
-				
-			}
-			
+			// kõik korras, email ei ole tühi ja on olemas
+			$signupPassword = $_POST["signupPassword"];
 		}
 		
 	}
@@ -94,6 +87,47 @@ if ( isset($_POST["signupEmail"]) &&
 	
 	}
 	
+	$loginEmailError = "";
+	$loginEmail = "";
+	
+	//kas on üldse olemas
+	if (isset ($_POST["loginEmail"])) {
+		
+		// oli olemas, ehk keegi vajutas nuppu
+		// kas oli tühi
+		if (empty ($_POST["loginEmail"])) {
+			
+			//oli tõesti tühi
+			$loginEmailError = "See väli on kohustuslik";
+			
+		} else {
+				
+			// kõik korras, email ei ole tühi ja on olemas
+			$loginEmail = $_POST["loginEmail"];
+		}
+		
+	}
+	
+	$loginPasswordError = "";
+	$loginPassword = "";
+	
+	//kas on üldse olemas
+	if (isset ($_POST["loginPassword"])) {
+		
+		// oli olemas, ehk keegi vajutas nuppu
+		// kas oli tühi
+		if (empty ($_POST["loginPassword"])) {
+			
+			//oli tõesti tühi
+			$loginPasswordError = "See väli on kohustuslik";
+			
+		} else {
+				
+			// kõik korras, email ei ole tühi ja on olemas
+			$loginPassword = $_POST["loginPassword"];
+		}
+		
+	}
 	
 	$error ="";
 	if ( isset($_POST["loginEmail"]) && 
@@ -120,12 +154,12 @@ if ( isset($_POST["signupEmail"]) &&
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input name="loginEmail" type="email">
+			<input name="loginEmail" type="email"> <?php echo $loginEmailError; ?>
 			
 			<br><br>
 			
 			<label>Parool</label><br>
-			<input name="loginPassword" type="password">
+			<input name="loginPassword" type="password"> <?php echo $loginPasswordError; ?>
 						
 			<br><br>
 			
@@ -138,7 +172,7 @@ if ( isset($_POST["signupEmail"]) &&
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input name="signupEmail" type="email" value="<?=$signupEmail;?>" > <?php echo $signupEmailError; ?>
+			<input name="signupEmail" type="email"> <?php echo $signupEmailError; ?>
 			
 			<br><br>
 			
