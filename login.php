@@ -59,13 +59,6 @@
 		
 	}
 	
-	$loginEmail = "";
-		if (isset ($_POST["loginEmail"])) {
-			if (!empty ($_POST["loginEmail"])) {
-				$loginEmail = $_POST["loginEmail"];	
-			}	
-		}
-	
 	$gender = "";
 	if(isset($_POST["gender"])) {
 		if(!empty($_POST["gender"])){
@@ -74,47 +67,42 @@
 			$gender = $_POST["gender"];
 		}
 	}
-	
-	if ( isset($_POST["signupEmail"]) &&
-		 isset($_POST["signupPassword"]) &&
+if ( isset($_POST["signupEmail"]) && 
+		 isset($_POST["signupPassword"]) && 
 		 $signupEmailError == "" && 
 		 empty($signupPasswordError)
-	   ) {
+		) {
 		
-		// ühtegi viga ei ole, kõik vajalik olemas
-		echo "salvestan...<br>";
-		echo "email ".$signupEmail."<br>";
-		echo "parool ".$_POST["signupPassword"]."<br>";
+		// salvestame ab'i
+		echo "Salvestan... <br>";
+		
+		echo "email: ".$signupEmail."<br>";
+		echo "password: ".$_POST["signupPassword"]."<br>";
 		
 		$password = hash("sha512", $_POST["signupPassword"]);
 		
-		echo "räsi ".$password."<br>";
+		echo "password hashed: ".$password."<br>";
 		
-		//kutsun funktsiooni, et salvestada
-		signup($signupEmail, $password);
+		
+		//echo $serverUsername;
+		
+		// KASUTAN FUNKTSIOONI
 		$signupEmail = cleanInput($signupEmail);
+		
 		signUp($signupEmail, cleanInput($password));
 		
-	}	
 	
-	$error ="";
-	if (isset($_POST["loginEmail"]) && 
-		isset($_POST["loginPassword"]) &&
-		!empty($_POST["loginEmail"]) && 
-		!empty($_POST["loginPassword"])) {
-			
-			$error = login(cleanInput($_POST["loginEmail"]), cleanInput($_POST["loginPassword"]));
-			
 	}
 	
-	$notice = "";
-	// mõlemad login vormi väljad on täidetud
-	if (	isset($_POST["loginEmail"]) && 
-			isset($_POST["loginPassword"]) && 
-			!empty($_POST["loginEmail"]) && 
-			!empty($_POST["loginPassword"]) 
-	) {
-		$notice = login($_POST["loginEmail"], $_POST["loginPassword"]);
+	
+	$error ="";
+	if ( isset($_POST["loginEmail"]) && 
+		isset($_POST["loginPassword"]) && 
+		!empty($_POST["loginEmail"]) && 
+		!empty($_POST["loginPassword"])
+	  ) {
+		  
+		$error = login(cleanInput($_POST["loginEmail"]), cleanInput($_POST["loginPassword"]));
 		
 	}
 	
@@ -128,7 +116,7 @@
 	<body>
 
 		<h1>Logi sisse</h1>
-		<p style="color:red;"><?php echo $notice; ?></p>
+		<p style="color:red;"><?php echo $error; ?></p>
 		<form method="POST">
 			
 			<label>E-post</label><br>
