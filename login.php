@@ -32,6 +32,7 @@
 	}
 	
 	$signupPasswordError = "";
+	$signupPassword = "";
 	
 	//kas on üldse olemas
 	if (isset ($_POST["signupPassword"])) {
@@ -91,9 +92,20 @@
 		
 		//kutsun funktsiooni, et salvestada
 		signup($signupEmail, $password);
+		$signupEmail = cleanInput($signupEmail);
+		signUp($signupEmail, cleanInput($password));
 		
 	}	
 	
+	$error ="";
+	if (isset($_POST["loginEmail"]) && 
+		isset($_POST["loginPassword"]) &&
+		!empty($_POST["loginEmail"]) && 
+		!empty($_POST["loginPassword"])) {
+			
+			$error = login(cleanInput($_POST["loginEmail"]), cleanInput($_POST["loginPassword"]));
+			
+	}
 	
 	$notice = "";
 	// mõlemad login vormi väljad on täidetud
@@ -105,6 +117,7 @@
 		$notice = login($_POST["loginEmail"], $_POST["loginPassword"]);
 		
 	}
+	
 	
 ?>
 <!DOCTYPE html>
@@ -119,12 +132,12 @@
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input name="loginEmail" type="email" value="<?php echo $loginEmail ?>"> 
+			<input placeholder="Email" name="loginEmail" type="email" value="<?php echo $loginEmail ?>"> 
 			
 			<br><br>
 			
 			<label>Parool</label><br>
-			<input name="loginPassword" type="password">
+			<input placeholder="Parool" name="loginPassword" type="password">
 						
 			<br><br>
 			
@@ -137,13 +150,18 @@
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input name="signupEmail" type="email" value="<?=$signupEmail;?>" > <?php echo $signupEmailError; ?>
+			<input placeholder="Email" name="signupEmail" type="email" value="<?=$signupEmail;?>" > <?php echo $signupEmailError; ?>
 			
 			<br><br>
 			
 			<input placeholder="Parool" name="signupPassword" type="password"> <?php echo $signupPasswordError; ?>
 						
 			<br><br>
+			
+			<input type="checkbox" name="usertype" value="artist">Artist<br>
+			<input type="checkbox" name="usertype" value="tavakasutaja">Tava kasutaja
+			</form>
+			<br>
 			
 			<?php if ($gender == "male") { ?>
 				<input type="radio" name="gender" value="male" checked > Mees<br>
@@ -162,7 +180,7 @@
 			<?php } else { ?>
 				<input type="radio" name="gender" value="other"> Muu<br>
 			<?php } ?>
-			
+	
 			<input type="submit" value="Loo kasutaja">
 		
 		</form>
