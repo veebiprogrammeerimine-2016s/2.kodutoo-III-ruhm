@@ -158,9 +158,12 @@
 						
 			<br><br>
 			
-			<input type="checkbox" name="usertype" value="artist">Artist<br>
-			<input type="checkbox" name="usertype" value="tavakasutaja">Tava kasutaja
-			</form>
+			<label>Kasutajatüüp</label><br>
+				<select name="userType">
+				<option value="Artist" <?php echo $result['genre'] =='Artist' ? 'selected : ''?> >Artist</option>
+				<option value="Tavakasutaja" <?php echo $result['genre'] =='Tavakasutaja' ? 'selected : ''?> >Tavakasutaja</option>
+				</select>
+			
 			<br>
 			
 			<?php if ($gender == "male") { ?>
