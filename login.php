@@ -132,16 +132,16 @@
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input placeholder="Email" name="loginEmail" type="email" value="<?php echo $loginEmail ?>"> 
+			<input name="loginEmail" type="email">
 			
 			<br><br>
 			
 			<label>Parool</label><br>
-			<input placeholder="Parool" name="loginPassword" type="password">
+			<input name="loginPassword" type="password">
 						
 			<br><br>
 			
-			<input type="submit" value="Log in"> 
+			<input type="submit">
 		
 		</form>
 		
@@ -150,21 +150,13 @@
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input placeholder="Email" name="signupEmail" type="email" value="<?=$signupEmail;?>" > <?php echo $signupEmailError; ?>
+			<input name="signupEmail" type="email" value="<?=$signupEmail;?>" > <?php echo $signupEmailError; ?>
 			
 			<br><br>
 			
 			<input placeholder="Parool" name="signupPassword" type="password"> <?php echo $signupPasswordError; ?>
 						
-			<br><br>
-			
-			<label>Kasutajatüüp</label><br>
-				<select name="userType">
-				<option value="Artist" <?php echo $result['genre'] =='Artist' ? 'selected : ''?> >Artist</option>
-				<option value="Tavakasutaja" <?php echo $result['genre'] =='Tavakasutaja' ? 'selected : ''?> >Tavakasutaja</option>
-				</select>
-			
-			<br>
+			<br><br> 
 			
 			<?php if ($gender == "male") { ?>
 				<input type="radio" name="gender" value="male" checked > Mees<br>
@@ -183,7 +175,7 @@
 			<?php } else { ?>
 				<input type="radio" name="gender" value="other"> Muu<br>
 			<?php } ?>
-	
+			
 			<input type="submit" value="Loo kasutaja">
 		
 		</form>

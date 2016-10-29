@@ -82,46 +82,70 @@
 		return $notice;
 	}
 	
-	function saveNote($note, $color) {
+	function saveData ($email, $band, $song, $genre) {
 		
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"],  $GLOBALS["serverPassword"],  $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("INSERT INTO colorNotes (note, color) VALUES (?, ?)");
+		$database = "if16_gittkaus_3";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
+		$stmt = $mysqli->prepare("INSERT INTO user_music(email, band, song, genre) VALUES (?, ?, ?, ?)");
+	
 		echo $mysqli->error;
 		
-		$stmt->bind_param("ss", $note, $color );
-		if ( $stmt->execute() ) {
-			echo "salvestamine õnnestus";	
-		} else {	
-			echo "ERROR ".$stmt->error;
+		$stmt->bind_param("ssss", $email, $band, $song, $genre);
+		
+		if($stmt->execute()) {
+			echo "salvestamine õnnestus";
+		} else {
+		 	echo "ERROR ".$stmt->error;
 		}
+		
+		$stmt->close();
+		$mysqli->close();
 		
 	}
 	
+	function getMusicData() {
 	
-	function getAllNotes() {
-		
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"],  $GLOBALS["serverPassword"],  $GLOBALS["database"]);
+		$database = "if16_gittkaus_3";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
+	
 		$stmt = $mysqli->prepare("
-			SELECT id, note, color
-			FROM colorNotes
+		
+		SELECT id, email, band, song, genre
+		FROM user_music
 		");
 		
-		$stmt->bind_result($id, $note, $color);
+		echo $mysqli->error;
+		
+		$stmt->bind_result($id, $email, $band, $song, $genre);
 		$stmt->execute();
 		
+		//tekitan massiivi
 		$result = array();
 		
+		//tee seda seni, kuni on rida andmeid
+		//mis vastab select lausele
 		while($stmt->fetch()) {
-			//echo $note."<br>";
 			
 			
-			$object = new StdClass();
-			$object->id =$id;
-			$object->note =$note;
-			$object->noteColor =$color;
-			
-			array_push($result, $object);
+		//tekitan objekti
+		$i = new StdClass();
+		
+		$i->id = $id;
+		$i->email = $email;
+		$i->band = $band;
+		$i->song = $song;
+		$i->genre = $genre;
+		
+		
+		//echo $plate."<br>";
+		//igakord massiivi lisan juurde nr märgi
+		array_push($result, $i);				
 		}
+			
+		
+			
+		$stmt->close();
+		$mysqli->close();
 		
 		return $result;
 		
