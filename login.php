@@ -10,10 +10,7 @@
 	//var_dump($_GET);
 	//echo "<br>";
 	var_dump($_POST);
-	$signupPassword = "";
-	$signupGender = "";
 	$gender = "";
-	$signupEmail = "";
 	$signupUsernameError = "";
 	$signupEmailError = "";
 	$signupGenderError = "";
@@ -36,12 +33,14 @@
 			$signupEmail = $_POST["signupEmail"];
 		}
 		
-		if (isset($_POST["gender"])) {
-			//on olemas ja ei ole tühi
-			$signupGender = $_POST["gender"];
-		} else {
+		if (!isset($_POST["gender"])) {
+			
 			$signupGenderError = "Choose your gender.";
+		} else {
+			
+			$gender = $_POST['gender'];
 		}
+		
 		if (empty($_POST['Day']) ||
 			empty($_POST['Month']) ||
 			empty($_POST['Year'])){
@@ -92,10 +91,10 @@
 			
 			//kutsun funktsiooni, et salvestada
 			$signupEmail = cleanInput($signupEmail);
-			signup($_POST["signupUsername"], 
+			signup(cleanInput($_POST["signupUsername"]), 
 					$signupEmail, 
 					$password, 
-					$signupGender, 
+					$gender, 
 					($Year.'-'.$Month.'-'.$Day));
 		}
 			
@@ -159,23 +158,25 @@
 		<h1> Register </h1>
 		<form method="POST">
 			<label>Username *</label><br>
-			<input name="signupUsername" type="text"><br>
+			<input name="signupUsername" type="text" value="<?php if(isset($_POST['signupUsername'])) { echo $_POST['signupUsername'];}?>" ><br>
 			<b><?php echo $signupUsernameError; ?></b><br>
 			<label>E-mail *</label><br>
-			<input name="signupEmail" type="email" value="<?php $signupEmail?>"><br>
+			<input name="signupEmail" type="email" value="<?php if(isset($_POST['signupEmail'])) { echo $_POST['signupEmail'];}?>"><br>
 			<b><?php echo $signupEmailError; ?></b><br>
 			<label>Password *</label><br>
-			<input placeholder="Password" type="password" name="signupPassword" value="<?php $signupPassword?>">
+			<input placeholder="Password" type="password" name="signupPassword">
 			<br>
 			<b><?php echo $signupPasswordError; ?></b>
 			<br><br>
-			<?php if ($signupGender == "male") { ?>
+			<?php if ($gender == "male"){ ?>
 				<input type="radio" name="gender" value="male" checked>Male *
 			<?php } else { ?>
 				<input type="radio" name="gender" value="male">Male *
 			<?php } ?>
+
 			
-			<?php if ($signupGender == "female") { ?>
+			
+			<?php if ($gender == "female") { ?>
 				<input type="radio" name="gender" value="female" checked>Female *
 			<?php } else { ?>
 				<input type="radio" name="gender" value="female">Female *

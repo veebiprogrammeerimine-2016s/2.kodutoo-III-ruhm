@@ -109,18 +109,16 @@
 			);
 			
 		$stmt = $mysqli->prepare("
-			SELECT feedback.id, login_data.username, feedback.feedback
+			SELECT login_data.username, feedback.feedback
 			FROM feedback, login_data
-			WHERE feedback.userid = ? AND login_data.id = feedback.userid
 		");
-		
-		$stmt->bind_param("i", $_SESSION["userId"]);
-		$stmt->bind_result($id, $username, $feedback);
+		//WHERE feedback.userid = ? AND login_data.id = feedback.userid
+		//$stmt->bind_param("i", $_SESSION["userId"]);
+		$stmt->bind_result($username, $feedback);
 		$stmt->execute();
 		$result = array();
 		while($stmt->fetch()) {
 			$object = new StdClass();
-			$object->id = $id;
 			$object->username = $username;
 			$object->feedback = $feedback;
 			
