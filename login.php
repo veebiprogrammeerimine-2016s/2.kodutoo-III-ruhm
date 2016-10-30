@@ -2,7 +2,6 @@
 	
 	require("functions.php");
 	require("styles.css");
-	require("javascript.js");
 	if(isset ($_SESSION["userId"])) {
 		header("Location: data.php");
 		exit();
@@ -64,7 +63,8 @@
 		$signupPasswordError = "Password must be at least 8 characters.";
 		
 	}
-	if (isset($_POST["signupUsername"]) && (strlen($_POST["signupUsername"]) < 6 || strlen($_POST["signupUsername"] > 16){
+	if (isset($_POST["signupUsername"]) && (strlen($_POST["signupUsername"]) < 6 
+		|| strlen($_POST["signupUsername"] > 16))){
 		
 		$signupUsernameError = "Username must be between 6-16 characters long.";
 		
@@ -83,7 +83,7 @@
 			
 			echo "saving...<br>";
 			echo "email: ".$signupEmail."<br>";
-			$password = cleanInput($_POST["signupPassword"])
+			$password = cleanInput($_POST["signupPassword"]);
 			$password = hash("sha512", $_POST["signupPassword"]);
 			
 			echo "password: ".$_POST["signupPassword"]."<br>";

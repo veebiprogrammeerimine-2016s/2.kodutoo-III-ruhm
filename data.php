@@ -14,7 +14,7 @@
 	if (isset($_GET["logout"])) {
 		
 		session_destroy();
-		header("Location: register.php");
+		header("Location: login.php");
 		exit();
 	}
 	// ei ole tuhjad
@@ -58,9 +58,7 @@
 			<input type="submit" value="Submit">
 			</form>
 		<br><br>
-		</form>
 
-		
 		<h2 style="clear:both;">Feedback table</h2>
 		<div class="table">
 		<?php
