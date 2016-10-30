@@ -123,7 +123,6 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 		<br>
 		<input name="loginPassword" type="password">
 		<br><br>
-		<input type="submit" value="Log in">
 		<button class="button" type="submit">Log in</button>
 		</form>
 		</fieldset>
@@ -167,7 +166,7 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 		<br>
 		<input name="forgotEmail" type="email"><?php echo $forgotEmailNotif; ?>
 		<br><br>
-		<input type="submit" value="Send email confirmation">
+		<button class="button" type="submit">Send email confirmation</button>
 		</form>
 		</fieldset>
 	</body>

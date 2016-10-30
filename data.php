@@ -123,7 +123,7 @@ echo "</pre>";
 	<br>
 	<input name="notecolor" type="color">
 	<br><br>
-	<input type="submit" value="Save your note">
+	<button class="button" type="submit">Save your note</button>
 	</form>
 	</fieldset>
 <?php

@@ -113,7 +113,8 @@
 	<label>Name of your hobby:</label><br>
 	<input name="interest" type="text">
 	
-	<input type="submit" value="Save">
+	<br><br>
+	<button class="button" type="submit">Save</button>
 	
 </form>
 
@@ -141,6 +142,7 @@
     </select>
     	
 	
-	<input type="submit" value="Add">
+	<br><br>
+	<button class="button" type="submit">Add interest</button>
 	
 </form>
