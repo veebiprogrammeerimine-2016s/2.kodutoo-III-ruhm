@@ -64,7 +64,7 @@
 		$signupPasswordError = "Password must be at least 8 characters.";
 		
 	}
-	if (isset($_POST["signupUsername"]) && strlen($_POST["signupUsername"]) < 6) {
+	if (isset($_POST["signupUsername"]) && (strlen($_POST["signupUsername"]) < 6 || strlen($_POST["signupUsername"] > 16){
 		
 		$signupUsernameError = "Username must be between 6-16 characters long.";
 		
@@ -83,7 +83,7 @@
 			
 			echo "saving...<br>";
 			echo "email: ".$signupEmail."<br>";
-			
+			$password = cleanInput($_POST["signupPassword"])
 			$password = hash("sha512", $_POST["signupPassword"]);
 			
 			echo "password: ".$_POST["signupPassword"]."<br>";
@@ -106,7 +106,7 @@
 			!empty($_POST["loginUsername"]) &&
 			!empty($_POST["loginPassword"])){
 			
-			$notice = login($_POST["loginUsername"], $_POST["loginPassword"]);
+			$notice = login(cleanInput($_POST["loginUsername"]), cleanInput($_POST["loginPassword"]));
 		}
 	elseif (isset($_POST["loginUsername"]) &&
 			isset($_POST["loginPassword"]) &&

@@ -21,8 +21,7 @@
 	if (isset($_POST['feedback']) &&
 		!empty($_POST['feedback'])){
 			
-			$Feedback = $_POST['feedback'];
-			$Feedback = cleanInput($Feedback);
+			$Feedback = cleanInput($_POST['feedback']);
 			saveFeedback($Feedback);
 			header("Location: data.php");
 			exit();
