@@ -101,36 +101,12 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 	<head>
 		<title>Login Page</title>
 		<style>
-        
-            body {
-                font-family: Roboto;
-                color: black;
-            }
-            h1 {
-                font-family: Roboto; 
-                font-weight: 200;
-                color: white;
-                background-color: DarkSlateGray;
-                font-size: 300%;
-                text-align: center;
-                margin: 0px;
-            }
-            h2 {
-                margin-top: 4px;
-                margin-bottom: 4px;
-                font-family: Roboto;
-                font-weight: 300;
-                color: White;
-                background-color:DarkSlateGray;
-                padding: 4px;
-                text-align:center;
-                font-size: 180%
             legend {
                 font-weight: 500;
             }
 		</style>
 <head>
-<link rel="stylesheet" type="text/css" href="mystyle.css>"
+<link rel="stylesheet" type="text/css" href="mystyle.css">
 </head> 
 	</head>
 	<body>
@@ -148,6 +124,7 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 		<input name="loginPassword" type="password">
 		<br><br>
 		<input type="submit" value="Log in">
+		<button class="button" type="submit">Log in</button>
 		</form>
 		</fieldset>
 
@@ -175,7 +152,8 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 		<br>
 		<input name="signupBUEmail" type="text" value= "<?php echo $signupBUEmail; ?>"><?php echo $signupBUError; ?>
 		<br><br>
-		<input type="submit" value="Create user">
+		<button class="button" type="submit">Create User</button>
+		<!--<input type="submit" value="Create user">-->
 		</form>
 		</fieldset>
 

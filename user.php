@@ -49,7 +49,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="mystyle.css">
 </head>
-<h1>About the user</h1>
+<h1>About you</h1>
 <style>
     ul {
         list-style-type: none;
@@ -90,39 +90,39 @@
 
 <?=$msg;?>
 
-<h2 style="margin-top: 0px;">Salvesta hobi</h2>
+<h2 style="margin-top: 0px;">Create a new hobby</h2>
 
 
 <?php
     
-    $listHtml = "<ul";
+    $listHtml = "";
 	
 	foreach($interests as $i){
 		
 		
-		$listHtml .= "<li style='float:none'>".$i->interest."</li>";
+		$listHtml .= "<p> - ".$i->interest."</p>";
 	}
     
-    $listHtml .= "</ul>";
+    $listHtml .= "";
 	
 	echo $listHtml;
     
 ?>
 <form method="POST">
 	
-	<label>Hobi/huviala nimi</label><br>
+	<label>Name of your hobby:</label><br>
 	<input name="interest" type="text">
 	
-	<input type="submit" value="Salvesta">
+	<input type="submit" value="Save">
 	
 </form>
 
 
 
-<h2>Kasutaja hobid</h2>
+<h2>Your hobbies</h2>
 <form method="POST">
 	
-	<label>Hobi/huviala nimi</label><br>
+	<label>Name of the hobbies</label><br>
 	<select name="userInterest" type="text">
         <?php
             
@@ -141,6 +141,6 @@
     </select>
     	
 	
-	<input type="submit" value="Lisa">
+	<input type="submit" value="Add">
 	
 </form>
