@@ -1,0 +1,21 @@
+<style>
+	input {
+		text-align:center
+	}
+	.container { 
+		text-align:center
+		
+	}
+
+	table, th, td{
+		
+		border: 1px solid black;	
+		max-width: 300px;
+		margin: left;
+		word-break: normal;
+		word-wrap:break-word;
+	}
+
+
+
+</style>
