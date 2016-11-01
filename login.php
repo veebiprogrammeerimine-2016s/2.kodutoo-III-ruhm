@@ -9,7 +9,6 @@
 	
 	//var_dump($_GET);
 	//echo "<br>";
-	var_dump($_POST);
 	$gender = "";
 	$signupUsernameError = "";
 	$signupEmailError = "";
@@ -81,14 +80,7 @@
 		isset($_POST["gender"])) {
 			
 			echo "saving...<br>";
-			echo "email: ".$signupEmail."<br>";
-			$password = cleanInput($_POST["signupPassword"]);
 			$password = hash("sha512", $_POST["signupPassword"]);
-			
-			echo "password: ".$_POST["signupPassword"]."<br>";
-			echo "hash: ".$password."<br>";
-			
-			
 			//kutsun funktsiooni, et salvestada
 			$signupEmail = cleanInput($signupEmail);
 			signup(cleanInput($_POST["signupUsername"]), 
