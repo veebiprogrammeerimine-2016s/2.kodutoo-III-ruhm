@@ -39,13 +39,18 @@
      $interests = getAllInterests();
  	
  ?>
- <h1><a href="data.php"> < tagasi</a> Kasutaja leht</h1>
- <?=$msg;?>
- <p>
- 	Tere tulemast <?=$_SESSION["userEmail"];?>!
- 	<a href="?logout=1">Logi välja</a>
- </p>
+ <h1 style="clear:both;">Hei, <?=$_SESSION["userEmail"]?>. Siin lehel saame sinust rohkem teada! </h1>
+ <ul>
+  <li><a href="user,php.php">Oled siin</a></li>
+  <li><a href="data.php">Kodu</a></li>
+  <li><a href="minu lehekülg.php">Logi välja</a></li>
+</ul>
  
+ <style type ="text/css">
+ body {
+		background-color:#00b3b3;
+	}
+ </style>
  
  <h2>Salvesta hobi</h2>
  <?php

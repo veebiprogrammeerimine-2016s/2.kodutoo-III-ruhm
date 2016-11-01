@@ -172,12 +172,11 @@
 		<style type ="text/css">
 	
 		h1 {
-			border-style: double;
 			text-align: center;
 			font-family: 'Goudy Old Style', Garamond, 
 			'Big Caslon', 'Times New Roman', serif;
 			font-size:80px;
-			color: #00b3b3;
+			color:#000000 ;
 			}
 		</style>
 	</head>
@@ -190,7 +189,7 @@
 	
 		h2 {
 			text-align: center;
-			color: #00b3b3;
+			color: #ffffff;
 		}
 		</style>
 		<h2>Logi sisse</h2>
@@ -225,7 +224,7 @@
 		<form method="POST"> 
 		<style type ="text/css">
 		body {
-			background-color:#003333;
+			background-color:  #00b3b3;
 			font-family: "Open Sans", Helvetica;
 		}
 		label {
@@ -235,7 +234,7 @@
 			text-align: center;
 		}
 		label .required {
-			color:  #00b3b3;
+			color: #ffffff;
 			cursor: text;
 			font-size: 20px;
 			line-height: 20px;

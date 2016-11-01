@@ -4,7 +4,7 @@
 	
 	//ei ole sisseloginud, suunan login lehele
 	if(!isset ($_SESSION["userId"])) {
-		header("Location: lehekülguuendat.php");
+		header("Location: minu lehekülg.php");
 		exit();
 	}
 	
@@ -43,7 +43,8 @@
 	
 ?>
 
-<h1>Hei tragi töötegija. Oled jõudnud andmetelehele, kus aitame välja selgitada, millist abi pakud sina Eestile. </h1>
+<h1 style="clear:both;">Hei, <?=$_SESSION["userEmail"]?>. Oled jõudnud andmetelehele, 
+kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 
 <ul>
   <li><a href="data.php">Kodu</a></li>
@@ -57,7 +58,7 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color:#00b3b3;
+    background-color:#000000;
 	}
 
 	li {
@@ -76,28 +77,58 @@
 	li a:hover {
     background-color: #111;
 	}
+	ul.active {
+    background-color:#00b3b3 ;
+	}
 	body {
-		background-color:#003333;
+		background-color:#00b3b3;
 	}
 	h1{
-		border-style: double;
-		text-align: center;
-		color:#00b3b3;
-		font-size:45px;
 		
+		text-align: center;
+		font-family: 'Goudy Old Style', Garamond, 
+		'Big Caslon', 'Times New Roman', serif;
+		font-size:45px;
+		color:#000000 ;
 	}
 	h2{
-		color:#00b3b3;
+		color:#ffffff;
+		font-size:32px;
+	}
+	legend {
+		color:#ffffff;
+	}
+	label{
+		color:#ffffff;
+		font-size:23px;
+	}
+	select {
+    width: 15%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 2px;
+    background-color:#527a7a;
+	}
+	option {
+		font-size:20px;
+	}
+	input [type=text]{
+	width: 15%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 2px;
+    background-color:#527a7a;
 	}
 </style>
 
 <h2>Sisesta mõned andmed</h2>
 
 <form method="POST">
-
-<label> Millist teenust pakkud? <label><br>
+	<fieldset>
+		<legend>Informatsioon</legend>
+			<label>Millist teenust pakud?</label><br>
 			<select name="profession" >
-				<option value= "plumber"> Torumees</option>
+				<option value= "plumber" selected> Torumees</option>
 				<option value= "electrician"> Elektrik</option>
 				<option value= "cleaner"> Koristaja</option>
 				<option value= "it-support"> IT-tugi</option>
@@ -133,23 +164,22 @@
 	<br><br>
 	
 	<label>Kirjelda ennast paari sõnaga:</label><br>
-	<input name="note" type="text">
+	<textarea name="note">Kirjeldus</textarea>
 	
 	<br><br>
 	
-	<br><br>
 	
 	<label>Värv</label><br>
-	<input name="color" type="color">
+	<input name="color" type="color" value="#ffffff"/>
 				
 	<br><br>
 	
 	<input type="submit">
 	
-
+	</fieldset>
 </form>
 
-<h3>Arhiiv</h3>
+<h2>Arhiiv</h2>
 
 <?php
  //iga liikme kohta masiivis
