@@ -111,6 +111,7 @@
 		$stmt = $mysqli->prepare("
 			SELECT login_data.username, feedback.feedback
 			FROM feedback, login_data
+			WHERE feedback.userid = login_data.id
 		");
 		//WHERE feedback.userid = ? AND login_data.id = feedback.userid
 		//$stmt->bind_param("i", $_SESSION["userId"]);
