@@ -43,10 +43,53 @@
 	
 ?>
 
-<h1>Data</h1>
-<p style="color: blue;">Tere tulemast <a href="user,php.php"><?=$_SESSION["userEmail"];?></a>!
-	<a href="?logout=1">Logi välja</a>
-</p>
+<h1>Hei tragi töötegija. Oled jõudnud andmetelehele, kus aitame välja selgitada, millist abi pakud sina Eestile. </h1>
+
+<ul>
+  <li><a href="data.php">Kodu</a></li>
+  <li><a href="user,php.php">Sina</a></li>
+  <li><a href="minu lehekülg.php">Logi välja</a></li>
+</ul>
+
+<style type ="text/css">
+	ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:#00b3b3;
+	}
+
+	li {
+    float: left;
+	}
+
+	li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+	}
+
+	/* Change the link color to #111 (black) on hover */
+	li a:hover {
+    background-color: #111;
+	}
+	body {
+		background-color:#003333;
+	}
+	h1{
+		border-style: double;
+		text-align: center;
+		color:#00b3b3;
+		font-size:45px;
+		
+	}
+	h2{
+		color:#00b3b3;
+	}
+</style>
 
 <h2>Sisesta mõned andmed</h2>
 

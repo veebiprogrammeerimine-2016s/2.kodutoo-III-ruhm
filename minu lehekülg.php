@@ -176,7 +176,7 @@
 			text-align: center;
 			font-family: 'Goudy Old Style', Garamond, 
 			'Big Caslon', 'Times New Roman', serif;
-			font-size:43px;
+			font-size:80px;
 			color: #00b3b3;
 			}
 		</style>
@@ -198,18 +198,23 @@
 		<form method="POST"> 
 				<p style="color:red;"><?php echo $notice; ?></p>
 		
+			<div class="input">
 			<label>
 			<input name= "loginemail" type= "email" value="<?php echo $loginemail;?>" > <?php echo $loginemailError; ?>
 			<div class="required">E-post:</div>
 			</label>
+			</div>
 			
-			
+			<div class="input">
 			<label>
-			<input name="loginpassword" type="password" value="<?php echo $loginpassword;?>" /> <?php echo $loginpasswordError; ?>
-			<div class="required">Parool: </div>
-			</label>
+				<input name="loginpassword" type="password" value="<?php echo $loginpassword;?>" /> <?php echo $loginpasswordError; ?>
 			
-			<button>Esita</button>
+				<div class="required">Parool: </div>
+				</label>
+			</div>
+			<div class="input">
+			<button class="button">Esita</button>
+			</div>
 			
 		</form>
 
@@ -220,7 +225,7 @@
 		<form method="POST"> 
 		<style type ="text/css">
 		body {
-			background-color:#ccffff;
+			background-color:#003333;
 			font-family: "Open Sans", Helvetica;
 		}
 		label {
@@ -242,7 +247,7 @@
 		background-color: transparent;
 		border: 0;
 		border-bottom: 2px solid  #000000;
-		color: black;
+		color: white;
 		font-size: 28px;
 		letter-spacing: -1px;
 		outline: 0;
@@ -255,7 +260,7 @@
 		width: 300px;
 		}
 		label input:focus + .required {
-		color: #F0F0F0;
+		color: #00b3b3;
 		 font-size: 10px;
 		 transform: translateY(-74px);
         }
@@ -264,7 +269,7 @@
 		transform: translateY(-100px);
 		}
 		button {
-		background-color: #006666;
+		background-color: #00b3b3;
 		border: 2px solid white;
 		border-radius: 23px;
 		color: white;
@@ -274,7 +279,6 @@
 		padding: 15px 30px;
 		text-transform: uppercase;
 		transition: all 200ms;
-		align: center;
 		}
 		button:hover, button:focus {
 		background-color: white;
@@ -317,7 +321,7 @@
 			</label>
 			
 			
-			<button>Loo kasutaja-></button>
+			<button class="button">Loo kasutaja-></button>
 			
 		</form>
 
