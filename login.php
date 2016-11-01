@@ -1,9 +1,10 @@
 <?php 
-	
+	require("../../config.php");
 	require("functions.php");
 	
 	if(isset ($_SESSION["userId"])){
 		header("Location: data.php");
+		exit();
 	}
 	
 	//var_dump($_GET);
@@ -31,6 +32,8 @@
 		
 	}
 	
+
+	
 	$signupPasswordError = "";
 	
 	//kas on üldse olemas
@@ -57,7 +60,65 @@
 		}
 		
 	}
+		$loginPasswordError = "";
 	
+	//kas on üldse olemas
+	if (isset ($_POST["loginPassword"])) {
+		
+		// oli olemas, ehk keegi vajutas nuppu
+		// kas oli tühi
+		if (empty ($_POST["loginPassword"])) {
+			
+			//oli tõesti tühi
+			$loginPasswordError = "See väli on kohustuslik";
+			
+		} else {
+			
+			// oli midagi, ei olnud tühi
+			
+			// kas pikkus vähemalt 8
+			if (strlen ($_POST["loginPassword"]) < 8 ) {
+				
+				$loginPasswordError = "Parool peab olema vähemalt 8 tm pikk";
+				
+			}
+			
+		}
+		
+	}
+	$signupDateError = "";
+	$birthDate = "";
+	//kas on üldse olemas
+	if (isset ($_POST["signupDate"])) {
+		
+		// oli olemas, ehk keegi vajutas nuppu
+		// kas oli tühi
+		if (empty ($_POST["signupDate"])) {
+			
+			//oli tõesti tühi
+			$signupDateError = "See väli on kohustuslik";
+			
+		
+			
+		} else {
+			
+			$birthDate = $_POST["signupDate"];
+			
+		}
+		
+	}
+	$loginEmailError="";
+	$loginEmail="";
+		if (isset($_POST["loginEmail"])){
+				
+		if (empty($_POST["loginEmail"])){
+					
+			$loginEmailError="Sisestage siia oma e-post, et sisse logida!";
+		
+			} else {
+			$loginEmail=$_POST["loginEmail"];	
+		}
+	}
 	
 	$gender = "";
 	if(isset($_POST["gender"])) {
@@ -84,7 +145,7 @@
 		echo "räsi ".$password."<br>";
 		
 		//kutsun funktsiooni, et salvestada
-		signup($signupEmail, $password);
+		signup($signupEmail, $password, $birthDate);
 		
 	}	
 	
@@ -116,12 +177,13 @@
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input name="loginEmail" type="email">
+			<input  name="loginEmail" type="email" placeholder="E-post" value="<?=$loginEmail;?>"> <?php echo $loginEmailError;?>
+				
 			
 			<br><br>
 			
 			<label>Parool</label><br>
-			<input name="loginPassword" type="password">
+			<input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" name="loginPassword" type="password"><?php echo $loginPasswordError; ?>
 						
 			<br><br>
 			
@@ -134,13 +196,19 @@
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input name="signupEmail" type="email" value="<?=$signupEmail;?>" > <?php echo $signupEmailError; ?>
+			<input name="signupEmail" placeholder="E-post" type="email" value="<?=$signupEmail;?>" > <?php echo $signupEmailError; ?>
+	
 			
 			<br><br>
 			
-			<input placeholder="Parool" name="signupPassword" type="password"> <?php echo $signupPasswordError; ?>
+			<input placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" name="signupPassword" type="password"> <?php echo $signupPasswordError; ?>
 						
 			<br><br>
+			<label for="kuupäev">Date of birth  </label>
+				<br><br>
+			<input placeholder="day/month/year" name="signupDate" type="text" ><?php echo $signupDateError; ?>
+				<br><br>
+			
 			
 			<?php if ($gender == "male") { ?>
 				<input type="radio" name="gender" value="male" checked > Mees<br>

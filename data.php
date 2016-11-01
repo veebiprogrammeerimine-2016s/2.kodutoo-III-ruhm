@@ -1,119 +1,113 @@
+
+
 <?php
 
+	//Ühendan sessiooniga
+	require("../../config.php");
 	require("functions.php");
 
-	if(!isset ($_SESSION["userId"])){
+	
+	//$database = "database";
+	//$mysqli = new mysqli($servername, $username, $password, $database);
+	//Kui ei ole sisse loginud, suunan login lehele
+	if (!isset($_SESSION["userId"])) {
 		header("Location: login.php");
-		exit();
 	}
 	
-	if (isset($_GET["logout"])){
-		
+	if (isset($_GET["logout"])) {
 		session_destroy();
-		
 		header("Location: login.php");
-	
 	}
 	
-	
-	$notice = "";
-	// mõlemad login vormi väljad on täidetud
-	if (	isset($_POST["note"]) && 
-			isset($_POST["color"]) && 
-			!empty($_POST["note"]) && 
-			!empty($_POST["color"]) 
-	) {
-		$note=cleanInput($_POST["note"])
-		$saveNote ($note, $_POST["color"]);
+	if(isset($_POST["description"]) && 
+	isset($_POST["location"]) &&
+	isset($_POST["date"]) &&
+	isset($_POST["url"]) &&
+	!empty($_POST["description"]) &&
+	!empty($_POST["location"]) &&
+	!empty($_POST["date"])&& 
+	!empty($_POST["url"]))	{
+		tabelisse2($_POST["description"], $_POST["location"], $_POST["date"],$_POST["url"]);
 	}
 	
-	$notes = getAllNotes();
+	$nature2 = getAllNature();
 	
-	//echo"<pre>";
-	//var_dump($notes  );
-	//echo"</pre>";
-	//<script> alert("oled häkitud") location.html:URL ;</script>
+	/*
+	echo "<pre>";
+	var_dump ($people);
+	echo "</pre>";
+	*/
+	
 ?>
-
 <h1>Data</h1>
-<p>	
-	Tere tulemast <?=$_SESSION["userEmail"];?> !
-	<a href="?logout=1"> Logi välja </a>
 
-
+<p>
+	Tere tulemast <?=$_SESSION["userEmail"];?>
+	<a href="?logout=1">Logi välja</a>
 </p>
+<br>
 
-<!DOCTYPE html>
+<form method="POST">
+	<input name="description" placeholder="Kirjeldus" type="text"> <br><br>
+	<input name="location" placeholder="Asukoht" type="text"> <br><br>
+	<input name="date" placeholder="Kuupäev" type="text"> <br><br>
+	<input name="url" placeholder="Pilt" type="text"> <br><br>
+	<input type="submit" value="Sisesta andmed">
+</form>
 
+<h2>Arhiiv</h2>
 
-		<h2>Märkmed<h2>
-		<form method="POST">
-			
-			<label>Tekst</label><br>
-			
-			<input name="note" type="text">
-						
-			<br><br>
-			
-			<label>Värv</label><br>
-			
-			<input name="color" type="color">
-			
-			<br><br>			
-						
-			<input type="submit">
-		
-		</form>
-<h2> arhiiv </h2>
-		
 <?php
 
-	foreach ($notes as $n) {
-		
-		$style = "width:200px; float:left; min-height:200px; border: 1px solid gray; background-color: " .$n->noteColor.";";
-		
-		echo "<p style= ' ".$style." '>".$n->note."</p>";
-		
-	}		
-		
-?>		
+	$html = "<table>";
+	
+	$html .= "<tr>";
+		$html .= "<th>ID</th>";
+		$html .= "<th>Pilt</th>";
+		$html .= "<th>Kirjeldus</th>";
+		$html .= "<th>Asukoht</th>";
+		$html .= "<th>Kuupäev</th>";
+	$html .= "</tr>";
 
-<h2 style = "clear:both">Tabel</h2>
-<?php
-
-	$html="<table>";
+	//iga liikme kohta massiivis
+	foreach ($nature2 as $n) {
+		$html .= "<tr>";
+			$html .= "<td>".$n->id."</td>";
+			$html .= "<td><img width='150' src=' ".$n->url." '></td>";
+			$html .= "<td>".$n->description."</td>";
+			$html .= "<td>".$n->location."</td>";
+			$html .= "<td>".$n->day."</td>";
+			
+			$html .= "</tr>";
 		
-		$html .="<tr>";
-			$html .="<th>id</th>";
-			$html .="<th>Märkus</th>";
-			$html .="<th>Värv</th>";	
-		$html .="</tr>";
-		
-	foreach ($notes as $note){
-			$html .="<tr>";
-				$html .= "<td>".$note->id."</td>";
-				$html .= "<td>".$note->note."</td>";
-				$html .= "<td>".$note->noteColor."</td>";	
-		$html .="</tr>";
 	}
-	$html .="</table>";
+	$html .= "</table>";
 	echo $html;
-
 ?>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+<?php
+	/*
+	foreach($people as $p){
+		
+		$style = "
+		
+			background-color:".$p->lightColor.";
+			width: 40px;
+			height: 40px;
+			border-radius: 20px;
+			text-align: center;
+			line-height: 39px;
+			float: left;
+			margin: 20px;
+		
+		";
+		
+		echo "<p style='".$style."'>".$p->age."</p>";
+		
+	}
+	*/
+?>
 
 
 

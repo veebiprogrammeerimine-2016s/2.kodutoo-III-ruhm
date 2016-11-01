@@ -1,36 +1,37 @@
-<?php 
-	// functions.php
+<?php
 	require("../../config.php");
+	//See fail peab olema seotud kõigiga, kus tahame sessiooni kasutada
+	//Saab kasutada nüüd $_SESSION muutujat
 	session_start();
-	
 	$database = "if16_aarovidevik";
-	
-	//var_dump($GLOBALS);
+	//function.php
 	
 	function signup($email, $password) {
+	
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
-		$mysqli = new mysqli(
-		
-		$GLOBALS["serverHost"], 
-		$GLOBALS["serverUsername"],  
-		$GLOBALS["serverPassword"],  
-		$GLOBALS["database"]
-		
-		);
-		$stmt = $mysqli->prepare("INSERT INTO user_sample (email, password) VALUES (?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO user_sample (email, password) VALUE (?, ?)");
 		echo $mysqli->error;
 		
-		$stmt->bind_param("ss", $email, $password );
-		if ( $stmt->execute() ) {
-			echo "salvestamine õnnestus";	
-		} else {	
-			echo "ERROR ".$stmt->error;
-		}
+		//asendan küsimärgid
+		//iga märgi kohta tuleb lisada üks täht ehk mis tüüpi muutuja on
+		// s - string
+		// i - interface_exists
+		// d - double
+		$stmt->bind_param("ss", $email, $password);
 		
+		if($stmt->execute()) {
+			echo "õnnestus";
+		} else {
+			echo "ERROR".$stmt->error;
+		}
 	}
 	
 	
-	function login($email, $password) {
+
+	
+	
+function login($email, $password) {
 		
 		$notice = "";
 		
@@ -65,7 +66,7 @@
 			$_SESSION["userEmail"] = $emailFromDb;
 			
 			header("Location: data.php");
-				
+				exit();
 			} else {
 				$notice = "Vale parool!";
 			}
@@ -78,93 +79,113 @@
 	}
 	
 	
-	function note($note, $color) {
+	function tabelisse($age, $color) {
+	
+	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+	
+	$stmt = $mysqli->prepare("INSERT INTO whistle (age, color) VALUE (?, ?)");
+	echo $mysqli->error;
+	
+	//asendan küsimärgi
+	$stmt->bind_param("is", $age, $color);
+	
+	if($stmt->execute()) {
+			echo "õnnestus";
+		} else {
+			echo "ERROR".$stmt->error;
+		}
+	
+
+	}
+	$id = "";
+	$description = "";
+	$location = "";
+	$date = "";
+	$url = "";
+	function tabelisse2 ($description, $location, $date, $url) {
 		
-		$mysqli = new mysqli(
+		$mysqli = new mysqli($GLOBALS["serverHost"],$GLOBALS["serverUsername"],$GLOBALS["serverPassword"],$GLOBALS["database"]);
 		
-		$GLOBALS["serverHost"], 
-		$GLOBALS["serverUsername"],  
-		$GLOBALS["serverPassword"],  
-		$GLOBALS["database"]
+		$stmt = $mysqli->prepare("INSERT INTO colorNotes (kirjeldus, asukoht, kuupäev, url)  VALUES (?,?,?,?)");
 		
-		);
-		$stmt = $mysqli->prepare("INSERT INTO colorNotes (note, color) VALUES (?, ?)");
-		echo $mysqli->error;
+		$stmt->bind_param("ssss", $description, $location, $date,$url);
 		
-		$stmt->bind_param("ss", $note, $color );
-		if ( $stmt->execute() ) {
-			echo "salvestamine õnnestus  " ;	
-		} else {	
+		if ($stmt->execute()) {
+			
+			echo "Edukalt postitatud! <br>";
+		} else {
 			echo "ERROR ".$stmt->error;
 		}
-		
 	}
+	function getAllPeople() {
 	
-	function getAllNotes (){
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
-		$mysqli = new mysqli ($GLOBALS["serverHost"], $GLOBALS["serverUsername"],  $GLOBALS["serverPassword"],  $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("
+			SELECT id, age, color FROM whistle
 		
-		$stmt = $mysqli->prepare(" SELECT id, note, color FROM colorNotes");
-		
-		$stmt->bind_result($id, $note, $color);
-		
+		");
+		$stmt->bind_result($id, $age, $color);
 		$stmt->execute();
 		
-		$result = array();
+		$results = array();
 		
-		while($stmt->fetch()){
-			//echo $note."<br>";
+		//tsükli sisu tehakse nii mitu korda, mitu rida SQL lausega tuleb
+		while($stmt->fetch()) {
 			
-			$object = new StdClass();
-			$object->id = $id;
-			$object->note = $note;
-			$object->noteColor = $color;
+			$human = new StdClass();
+			$human->id = $id;
+			$human->age = $age;
+			$human->lightColor = $color;
+	
 			
+			//echo $color."<br>";
+			array_push($results, $human);
 			
-			
-			array_push($result, $object);
 		}
-		return $result;
-	}
-	
-	
-	
-	function cleanInput($input){
 		
-		$input=trim($input);
-		$input=stripslashes($input);
-		$input = htmlspecialchars($input);
-		return $input;
-		
+		return $results;
 		
 	}
 	
 	
-	/*function sum($x, $y) {
+	function getAllNature() {
+	
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
-		$answer = $x+$y;
+		$stmt = $mysqli->prepare("SELECT id, kirjeldus, asukoht, kuupäev, url FROM colorNotes");
+		$stmt->bind_result($id, $description, $location, $date, $url);
+		$stmt->execute();
 		
-		return $answer;
+		$results = array();
+		
+		//tsükli sisu tehakse nii mitu korda, mitu rida SQL lausega tuleb
+		while($stmt->fetch()) {
+			
+			$nature = new StdClass();
+			$nature->id = $id;
+			$nature->description = $description;
+			$nature->location = $location;
+			$nature->day = $date;
+			$nature->url = $url;
+	
+			
+			//echo $color."<br>";
+			array_push($results, $nature);
+			
+		}
+		
+		return $results;
+		
 	}
 	
-	function hello($firstname, $lastname) {
+	
+	/*function hello($x, $y) {
 		
-		return 
-		"Tere tulemast "
-		.$firstname
-		." "
-		.$lastname
-		."!";
+		return "Tere tulemast, " .ucfirst($x)." ".ucfirst($y);
 		
 	}
 	
-	echo sum(123123789523,1239862345);
-	echo "<br>";
-	echo sum(1,2);
-	echo "<br>";
-	
-	$firstname = "Romil";
-	
-	echo hello($firstname, "R.");
+	echo hello("stivo", "s");
 	*/
 ?>
