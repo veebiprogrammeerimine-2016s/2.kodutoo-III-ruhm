@@ -180,12 +180,6 @@ function login($email, $password) {
 	}
 	
 	
-	/*function hello($x, $y) {
-		
-		return "Tere tulemast, " .ucfirst($x)." ".ucfirst($y);
-		
-	}
 	
-	echo hello("stivo", "s");
-	*/
+	
 ?>

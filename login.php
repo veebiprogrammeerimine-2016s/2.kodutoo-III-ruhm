@@ -145,7 +145,7 @@
 		echo "räsi ".$password."<br>";
 		
 		//kutsun funktsiooni, et salvestada
-		signup($signupEmail, $password, $birthDate);
+		signup($signupEmail,$password,$birthDate);
 		
 	}	
 	
