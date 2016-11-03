@@ -97,6 +97,7 @@ kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 	}
 	legend {
 		color:#ffffff;
+		font-size: 20px;
 	}
 	label{
 		color:#ffffff;
@@ -104,10 +105,10 @@ kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 	}
 	select {
     width: 15%;
-    padding: 16px 20px;
+    padding: 9px 12px;
     border: none;
     border-radius: 2px;
-    background-color:#527a7a;
+    background-color:#ffffff;
 	}
 	option {
 		font-size:20px;
@@ -217,7 +218,7 @@ kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 		$html .="<td>".$note ->money."</td>";
 		$html .="<td>".$note ->note."</td>";
 		$html .="<td>".$note ->noteColor."</td>";
-		
+		$html .="<td><a href='edit.php?id=" .$note->id. "'>edit.php</a></td>";
 		$html .="</tr>";
 	}
 	$html .= "</table>";
