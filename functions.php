@@ -5,11 +5,16 @@
 	// functions.php
 	session_start();
 
+	/* ÜHENDUS */
 	$database = "if16_elleivan";
+	$mysqli = new mysqli($serverHost, $serverUsername, $serverPassword, $database);
+	require("user.class.php");
+	$User = new User($mysqli);
 
-	//var_dump($GLOBALS);
-	
-	function signup($username, $email, $password) {
+	//echo $User->name;
+
+
+function saveNote($note, $color, $r100, $r50, $r20, $r10, $r5, $r2, $r1) {
 		
 	
 		$mysqli = new mysqli(
@@ -21,90 +26,10 @@
 		
 		);
               
-		$stmt = $mysqli->prepare("INSERT INTO Aruanne (username, email, password) VALUES (?, ?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO colorNotes (note, color, r100, r50, r20, r10, r5, r2, r1) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		echo $mysqli->error;
 
-		$stmt->bind_param("sss", $username, $email, $password );
-
-		if ( $stmt->execute() ) {
-			echo "salvestamine õnnestus";
-		} else {
-			echo "ERROR ".$stmt->error;	
-
-		}
-		
-		
-		
-	}
-
-	
-
-	function login($username, $password) {
-
-		$notice = "";
-
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-
-		$stmt = $mysqli->prepare("SELECT id, username, email, password, created FROM Aruanne WHERE username = ? OR email = ?");
-
-		//asendan ?
-		$stmt->bind_param("ss", $username, $username);
-
-		// määran muutujad reale mis kätte saan
-		$stmt->bind_result($id, $usernameFromDb, $emailFromDb, $passwordFromDb, $created);
-		
-		$stmt->execute();
-		//ainult SELECTI puhul
-		if ($stmt->fetch()) {
-
-			//vähemalt üks rida tuli
-			//kasutaja sisselogimis parool räsiks
-			$hash = hash("sha512", $password);
-			if($hash == $passwordFromDb) {
-
-				// õnnestus
-				echo "Kasutaja ".$id." logis sisse";
-
-				$_SESSION["userId"] = $id;
-				$_SESSION["userUsername"] = $usernameFromDb;
-				$_SESSION["userEmail"] = $emailFromDb;
-
-				header("Location: data.php");
-				exit();
-				
-
-			} else {
-
-				$notice = "Vale parool!";
-			}
-
-
-		} else {
-
-			//ei leitud ühtegi rida
-			$notice = "Sellist emaili ei ole!";
-		}
-
-		return $notice;
-	}
-
-
-function saveNote($note, $color) {
-		
-	
-		$mysqli = new mysqli(
-
-		$GLOBALS["serverHost"],
-		$GLOBALS["serverUsername"],
-		$GLOBALS["serverPassword"],
-		$GLOBALS["database"]
-		
-		);
-              
-		$stmt = $mysqli->prepare("INSERT INTO colorNotes (note, color) VALUES (?, ?)");
-		echo $mysqli->error;
-
-		$stmt->bind_param("ss", $note, $color );
+		$stmt->bind_param("ssiiiiiii", $note, $color, $r100, $r50, $r20, $r10, $r5, $r2, $r1 );
 
 		if ( $stmt->execute() ) {
 			echo "salvestamine õnnestus";
@@ -127,8 +52,8 @@ function getAllNotes() {
 		
 		);
               
-		$stmt = $mysqli->prepare("SELECT id, note, color FROM colorNotes");
-		$stmt->bind_result($id, $note, $color);
+		$stmt = $mysqli->prepare("SELECT id, note, color, r100, r50, r20, r10, r5, r2, r1 FROM colorNotes WHERE deleted IS NULL");
+		$stmt->bind_result($id, $note, $color, $r100, $r50, $r20, $r10, $r5, $r2, $r1);
 		$stmt->execute();
 
 		$result = array();
@@ -140,6 +65,13 @@ function getAllNotes() {
 			$object->id = $id;
 			$object->note = $note;
 			$object->noteColor = $color;
+			$object->r100 = $r100;
+			$object->r50 = $r50;
+			$object->r20 = $r20;
+			$object->r10 = $r10;
+			$object->r5 = $r5;
+			$object->r2 = $r2;
+			$object->r1 = $r1;
 
 
 			array_push($result, $object);

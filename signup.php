@@ -13,6 +13,72 @@
 		exit();
 
 	}
+
+	$loginUsernameError = "";
+	$loginUsername = "";
+	
+	if (isset ($_POST["loginUsername"])) {
+		
+		// oli olemas, ehk keegi vajutas nuppu
+		//kas oli tühi
+		if (empty ($_POST["loginUsername"])) {
+			
+			//oli tõesti tühi
+			$loginUsernameError = "See väli on kohustuslik";
+			
+		} else {
+			//kõik korras, kasutaja koht ei ole tühi ja on olemas
+			$loginUsername = $_POST["loginUsername"];
+			
+		}
+	
+	}
+
+$loginEmailError = "";
+	$loginEmail = "";
+	
+	if (isset ($_POST["loginEmail"])) {
+		
+		// oli olemas, ehk keegi vajutas nuppu
+		//kas oli tühi
+		if (empty ($_POST["loginEmail"])) {
+			
+			//oli tõesti tühi
+			$loginEmailError = "See väli on kohustuslik";
+			
+		} else {
+			//kõik korras, kasutaja koht ei ole tühi ja on olemas
+			$loginEmail = $_POST["loginEmail"];
+			
+		}
+	
+	}
+
+	$loginPasswordError = "";
+
+
+	//kas on üldse olemas
+	if (isset ($_POST["loginPassword"])) {
+		
+		// oli olemas, ehk keegi vajutas nuppu
+		//kas oli tühi
+		if (empty ($_POST["loginPassword"])) {
+			
+			//oli tõesti tühi
+			$loginPasswordError = "See väli on kohustuslik";
+			
+		} else {
+
+			//oli midagi, ei olnud tühi
+
+			// kas pikkus vähemalt 4
+			// kuna kassas on kõigil oma 4-kohaline kood, võiks seda sama kasutada, et ei oleks liiga palju uusi paroole
+			if (strlen ($_POST["loginPassword"]) < 4 ) {
+
+				$loginPasswordError = "Parool peab olema vähemalt 4 tm pikk!";
+			}
+		}
+	}
 	
 	$signupUsernameError = "";
 	$signupUsername = "";
@@ -100,7 +166,7 @@ $signupEmailError = "";
 			//echo "räsi ".$password."<br>";
 		
 			//kutsun funktsiooni, et salvestada
-			signup($signupUsername, $signupEmail, $password);
+			$User->signup($signupUsername, $signupEmail, $password);
 
 	}
 	
@@ -112,7 +178,8 @@ $signupEmailError = "";
 				!empty($_POST["loginPassword"])
 	) {
 
-			login($_POST["loginUsername"], $_POST["loginPassword"]);
+			$notice = $User->login($_POST["loginUsername"], $_POST["loginPassword"]);
+		echo $notice;
 	}
 
 ?>
@@ -130,6 +197,8 @@ $signupEmailError = "";
 		border: none;
 		background-color: #F08080;
 		color: white;
+		font-family: "Courier New", Courier, monospace;
+		font-size: 16px;
 	}
 	
 
@@ -140,14 +209,16 @@ $signupEmailError = "";
 		box-sizing: border-box;
 		border: none;
 		border-bottom: 2px solid LightBlue;
+		text-align: center;
+		font-family: "Courier New", Courier, monospace;
+		font-size: 16px;
 	}
 
 		<title>Sisselogimise leht</title>
 	</style>
 	</head>
 	<body>
-	
-		<h1 style="text-align:center;">Logi sisse</h1>
+		<h1 style="text-align:center; font-family:'Courier New', Courier, monospace;">Logi sisse</h1>
 		
 		
 		<form method="POST" style="text-align:center;">
@@ -163,10 +234,10 @@ $signupEmailError = "";
 			
 			<input type="submit">
 			
-		
-
 		</form>
 	
+		</p>
+
 	</body>
 </html>
 
@@ -177,33 +248,27 @@ $signupEmailError = "";
 
 	<br><br><br><br>
 
-		<h1 style="text-align:center;">Loo kasutaja</h1>
+		<h1 style="text-align:center; font-family:'Courier New', Courier, monospace;">Loo kasutaja</h1>
 		
 		
-		<form method="POST" style="text-align:center;">
-			<label>Eesnimi</label><br> 
-			<input name="Firstname" type="text"> 	
+		<form method="POST" style="text-align:center;"> 
+			<input placeholder="Eesnimi" name="Firstname" type="text"> 	
 
 			<br><br>
 			
-			<label>Perekonnanimi</label><br>
-			<input name="Lastname" type="text"> 
+			<input placeholder="Perekonnanimi" name="Lastname" type="text"> 
 
 			<br><br>
 			
-			<label>Kasutajanimi</label><br>
-			<input type="text" name="signupUsername" value="<?php echo $signupUsername; ?>">  <?php echo $signupUsernameError; ?>
+			<input placeholder="Kasutajanimi" type="text" name="signupUsername" value="<?php echo $signupUsername; ?>">  <?php echo $signupUsernameError; ?>
 
 			<br><br>
 
-			<label>Email</label><br>
-			<input type="email" name="signupEmail" value="<?php echo $signupEmail; ?>">  <?php echo $signupEmailError; ?>
+			<input placeholder="Email" type="email" name="signupEmail" value="<?php echo $signupEmail; ?>">  <?php echo $signupEmailError; ?>
 
 			<br><br>
 
-			
-			<label>Parool</label><br>
-			<input type="password" name="signupPassword"> <?=$signupPasswordError;?> 
+			<input placeholder="Parool" type="password" name="signupPassword"> <?=$signupPasswordError;?> 
 			
 			<br><br>
 			
