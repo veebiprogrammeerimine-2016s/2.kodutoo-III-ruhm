@@ -33,6 +33,7 @@
 	}
 	
 	$signupPasswordError = "";
+	$signupPassword = "";
 	
 	//kas on üldse olemas
 	if (isset ($_POST["signupPassword"])) {
@@ -52,6 +53,88 @@
 			if (strlen ($_POST["signupPassword"]) < 8 ) {
 				
 				$signupPasswordError = "Parool peab olema vähemalt 8 tm pikk";
+				
+			}
+			
+		}
+		
+	}
+	
+	
+	//LOGIN
+
+	$loginEmailError = "";
+	$loginEmail = "";
+	
+	//kas on üldse olemas
+	if (isset ($_POST["loginEmail"])) {
+		
+		// oli olemas, ehk keegi vajutas nuppu
+		// kas oli tühi
+		if (empty ($_POST["loginEmail"])) {
+			
+			//oli tõesti tühi
+			$loginEmailError = "See väli on kohustuslik";
+			
+		} else {
+				
+			// kõik korras, email ei ole tühi ja on olemas
+			$loginEmail = $_POST["loginEmail"];
+		}
+		
+	}
+	
+	
+	$loginPasswordError = "";
+	$loginPassword = "";
+	
+	//kas on üldse olemas
+	if (isset ($_POST["loginPassword"])) {
+		
+		// oli olemas, ehk keegi vajutas nuppu
+		// kas oli tühi
+		if (empty ($_POST["loginPassword"])) {
+			
+			//oli tõesti tühi
+			$loginPasswordError = "See väli on kohustuslik";
+			
+		} else {
+			
+			// oli midagi, ei olnud tühi
+			
+			// kas pikkus vähemalt 8
+			if (strlen ($_POST["loginPassword"]) < 8 ) {
+				
+				$loginPasswordError = "Parool peab olema vähemalt 8 tm pikk";
+				
+			}
+			
+		}
+		
+	}
+	
+	
+	$loginPasswordError = "";
+	$loginPassword = "";
+	
+	//kas on üldse olemas
+	if (isset ($_POST["loginPassword"])) {
+		
+		// oli olemas, ehk keegi vajutas nuppu
+		// kas oli tühi
+		if (empty ($_POST["loginPassword"])) {
+			
+			//oli tõesti tühi
+			$loginPasswordError = "See väli on kohustuslik";
+			
+		} else {
+			
+			// oli midagi, ei olnud tühi
+			
+			// kas pikkus vähemalt 8
+			if (strlen ($_POST["loginPassword"]) < 8 ) {
+				
+				$loginPasswordError = "Parool peab olema vähemalt 8 tm pikk";
 				
 			}
 			
@@ -92,7 +175,7 @@
 	
 	
 	$notice = "";
-	// mõlemad login vormi väljad on täidetud
+	//   login vormi väljad on täidetud
 	if (	isset($_POST["loginEmail"]) && 
 			isset($_POST["loginPassword"]) && 
 			!empty($_POST["loginEmail"]) && 
@@ -115,12 +198,11 @@
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input name="loginEmail" type="email">
+			<input name="loginEmail" type="email" value="<?=$loginEmail;?>" > <?php echo $loginEmailError; ?>
 			
 			<br><br>
 			
-			<label>Parool</label><br>
-			<input name="loginPassword" type="password">
+			<input placeholder="Parool" name="loginPassword" type="password"> <?php echo $loginPasswordError; ?>
 						
 			<br><br>
 			

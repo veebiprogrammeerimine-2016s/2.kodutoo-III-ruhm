@@ -103,7 +103,7 @@
 		
 		);
 
-		$stmt = $mysqli->prepare("INSERT INTO colorNotes (note, color) VALUES (?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO kodutoo (note, color) VALUES (?, ?)");
 		echo $mysqli->error;
 		
 		$stmt->bind_param("ss", $note, $color );
@@ -126,7 +126,7 @@
 		$GLOBALS["database"]
 		);
 		
-		$stmt = $mysqli->prepare("SELECT id, note, color FROM colorNotes");
+		$stmt = $mysqli->prepare("SELECT id, note, color FROM kodutoo");
 		
 		$stmt->bind_result($id, $note, $color);
 		$stmt->execute();
@@ -167,7 +167,7 @@
 		// "tere tulemast"
 		
 		// "tere \\tulemast"
-		$input = striplashes($input);
+		$input = stripslashes($input);
 		// "tere tulemast"
 		
 		$input = htmlspecialchars($input);
