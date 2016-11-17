@@ -1,7 +1,9 @@
 <?php
-require("functions.php");
-
-
+require("../functions.php");
+require("../class/Note.class.php");
+require("../class/Helper.class.php");
+$Note = new Note($mysqli);
+$Helper = new Helper();
 //is the user meaning to log out?
 if (isset($_GET["logout"])) {
 	session_destroy();
@@ -18,58 +20,31 @@ if (isset($_POST["note"]) and isset($_POST["notecolor"])) {
 	if (!empty($_POST["note"]) and !empty($_POST["notecolor"])) {
 		$note = $_POST["note"];
 		$color = $_POST["notecolor"];
-		$note = cleanInput($note);
-		$color = cleanInput($color);
-		saveNote($note, $color);
+		$note = $Helper->cleanInput($note);
+		$color = $Helper->cleanInput($color);
+		$Note->save($note, $color);
 	}
 }
-$notes = getAllNotes();
+
+    $q="";
+    if(isset($_GET["q"])) {
+        $q = $Helper->cleanInput($_GET["q"]);
+    }
+$orderId = "ASC";
+$sort = "id";
+if(isset($_GET["sort"]) && isset($_GET["order"])) {
+    $sort = $_GET["sort"];
+    $orderId = $_GET["order"];
+}
+$notes = $Note->getAll($q, $sort, $orderId);
 echo "<pre>";
 //var_dump($notes);
 echo "</pre>";
 ?>
 
 
-<!doctype html>
-<head>
-<link rel="stylesheet" type="text/css" href="mystyle.css"
-</head> 
-<style>
-    body {
-        font-family: Roboto;
-        color: black;
-    }
-    h1 {
-        padding: 0px;
-        margin: 0px;
-        font-weight: 200;
-        color: white;
-        background-color: DarkSlateGray;
-        font-size: 300%;
-        text-align:center;
-    }
-    h2 {
-        margin-top: 4px;
-        margin-bottom: 4px;
-        font-weight: 300;
-        color: White;
-        background-color: DarkSlateGray;
-        padding: 4px;
-        text-align:center;
-        font-size: 180%
-    }
-    legend {
-        color: DarkSlateGray;
-        font-weight: 500;
-    }
-    header, footer {
-        color: white;
-        background-color: DarkSlateGray;
-        text-decoration: none;
-        clear: left;
-        text-align: center;
-    }
-</style>
+<?php require("../header.php"); ?>
+
 <head><title>My extra-mega-secure website, yo</title></head>
 
 
@@ -107,7 +82,6 @@ echo "</pre>";
     
     <li><a class="active" href="data.php">Home</a></li>
     <li><a href="user.php">User</a></li>
-    <li><a href="options.php">Options</a></li>
     <li style="float: right"><a href="?logout=1">Log out</a></li>
 </ul>
 
@@ -134,14 +108,30 @@ foreach ($notes as $n) {
 }
 ?>
 
-<h2 style="clear:both;">Tabel</h2>
+<h2 style="clear:both;">Table</h2>
+<form>
+    <input type="search" name="q" value="<?=$q;?>">
+    <!--<input type="submit" value="Search">-->
+    <button class="button" type="submit">Search</button>
+</form>
 <?php
 
-	$html = "<table>";
+
+if (isset($_GET["order"]) && $_GET["order"] == "ASC" && $_GET["sort"] = "id"){
+    $orderId = "DESC";
+}
+if (isset($_GET["order"]) && $_GET["order"] == "ASC" && $_GET["sort"] = "note"){
+    $orderId = "DESC";
+}
+if (isset($_GET["order"]) && $_GET["order"] == "ASC" && $_GET["sort"] = "color"){
+    $orderId = "DESC";
+}
+
+	$html = "<table class='table table-hover table-striped table-condensed'>";
 	$html .= "<tr>";
-		$html .= "<th>id</th>";
-		$html .= "<th>Note</th>";
-		$html .= "<th>Color</th>";
+		$html .= "<th><a href='?q=".$q."&sort=id&order=".$orderId."'>id</a></th>";
+		$html .= "<th><a href='?q=".$q."&sort=note&order=".$orderId."'>Note</a></th>";
+		$html .= "<th><a href='?q=".$q."&sort=color&order=".$orderId."'>Color</a></th>";
 	$html .= "</tr>";
 
 	foreach ($notes as $note) {
@@ -149,12 +139,12 @@ foreach ($notes as $n) {
 		$html .= "<td>".$note->id."</td>";
 		$html .= "<td>".$note->note."</td>";
 		$html .= "<td>".$note->notecolor."</td>";
+		$html .= "<td><a href='edit.php?id=".$note->id."'><span class='glyphicon glyphicon-pencil'></a></td>";
 		$html .= "</tr>";
 	}
 	$html .= "</table>";
 	echo $html;
 ?>
 
-<footer>
-<p style="font-family:'Roboto'; padding: 8px">Mihkel's random website | 2016</p>
-</footer>
+
+<?php require("../footer.php"); ?>

@@ -1,7 +1,11 @@
 <?php 
 	
-	require("functions.php");
-	
+	require("../functions.php");
+    require("../class/Interest.class.php");
+    require("../class/Helper.class.php");
+    $Interest = new Interest($mysqli);
+    $Helper = new Helper();
+    
 	//kui ei ole kasutaja id'd
 	if (!isset($_SESSION["userId"])){
 		
@@ -32,23 +36,21 @@
 		!empty($_POST["interest"])
 	  ) {
 		  
-		saveInterest(cleanInput($_POST["interest"]));
+		$Interest->save($Helper->cleanInput($_POST["interest"]));
 		
 	}
 	if ( isset($_POST["userInterest"]) && 
 		!empty($_POST["userInterest"])
 	  ) {
 		echo $_POST["userInterest"]."<br>";  
-		saveUserInterest(cleanInput($_POST["userInterest"]));
+		$Interest->saveUser($Helper->cleanInput($_POST["userInterest"]));
 		
 	}
 	
-    $interests = getAllInterests();
+        $interests = $Interest->getAll();
 	
 ?>
-<head>
-<link rel="stylesheet" type="text/css" href="mystyle.css">
-</head>
+
 <h1>About you</h1>
 <style>
     ul {
@@ -83,7 +85,6 @@
     
     <li><a href="data.php">Home</a></li>
     <li><a class="active" href="user.php">User</a></li>
-    <li><a href="options.php">Options</a></li>
     <li style="float: right"><a href="?logout=1">Log out</a></li>
 </ul>
 </nav>
@@ -146,3 +147,7 @@
 	<button class="button" type="submit">Add interest</button>
 	
 </form>
+
+<?php
+    $Interest->closeConnection();
+?>

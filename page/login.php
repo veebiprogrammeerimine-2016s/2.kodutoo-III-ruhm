@@ -1,7 +1,10 @@
 <?php
 
-require("functions.php");
-
+require("../functions.php");
+require("../class/User.class.php");
+require("../class/Helper.class.php");
+$User = new User($mysqli);
+$Helper = new Helper();
 if(isset($_SESSION["userId"])) {
 header("Location: data.php");
 exit();
@@ -85,48 +88,52 @@ if (isset($_POST["signupEmail"]) && isset($_POST["signupPassword"]) && isset($_P
 	echo "Hashed ".$password."<br>";
 
 
-	signUp($signupEmail, $password, $_POST["signupName"], $_POST["signupBUEmail"]);
+	$User->signUp($signupEmail, $password, $_POST["signupName"], $_POST["signupBUEmail"]);
 	header("Location: new_user.php");
 	//connect to MariaDB, since I'm cool
 }
 
 if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_POST["loginEmail"]) && !empty(["loginPassword"])) {
-	login($_POST["loginEmail"], $_POST["loginPassword"]);
+	$User->login($_POST["loginEmail"], $_POST["loginPassword"]);
 }
 
 ?>
+<?php require("../header.php"); ?>
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Login Page</title>
-		<style>
-            legend {
-                font-weight: 500;
-            }
-		</style>
-<head>
-<link rel="stylesheet" type="text/css" href="mystyle.css">
-</head> 
-	</head>
-	<body>
-        <h1>My awesome website for some reasons</h1>
+<title>Login Page</title>
+<style>
+    legend {
+        font-weight: 500;
+    }
+</style>
+
+<!--<link rel="stylesheet" type="text/" href="mystyle.css">-->
+<div class="container">
+	
+	<div class="row">
+        <!--<h1>My awesome website for some reasons</h1>-->
+        <div class="col-sm-4 col-md-3">
 		<h2 style="margin-top:0px;">Log into the system</h2>
 		<fieldset>
 		<legend>Login information</legend>
 		<form method="POST">
 		<label>E-mail address</label>	
 		<br>
-		<input name="loginEmail" type="email" value="<?php echo $loginEmail; ?>" autofocus>
+		<div class="form-group">
+		<input class="form-control" name="loginEmail" type="email" value="<?php echo $loginEmail; ?>" autofocus>
+		</div>
 		<br><br>
 		<label>Password</label>
 		<br>
 		<input name="loginPassword" type="password">
 		<br><br>
-		<button class="button" type="submit">Log in</button>
+		<input class="btn btn-success hidden-xs" type="submit" value="Log in">
+		<input class="btn btn-success btn-block visible-xs-block" type="submit" value="Log in 2">
 		</form>
 		</fieldset>
-
+		</div>
+		
+        <div class="col-sm-4 col-md-3 col-sm-offset-1 col-md-offset-1">
 		<h2>Create a user</h2>
 		<fieldset>
 		<legend>Information for creating a user</legend>
@@ -151,11 +158,13 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 		<br>
 		<input name="signupBUEmail" type="text" value= "<?php echo $signupBUEmail; ?>"><?php echo $signupBUError; ?>
 		<br><br>
-		<button class="button" type="submit">Create User</button>
+		<input class="btn" type="submit" value="Create User">
 		<!--<input type="submit" value="Create user">-->
 		</form>
 		</fieldset>
-
+        </div>
+        
+        <div class="col-sm-3 col-sm-offset-1">
 		<h2>Forgot your password?</h2>
 		<fieldset>
 		<legend>Email information</legend>
@@ -169,5 +178,7 @@ if (isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_PO
 		<button class="button" type="submit">Send email confirmation</button>
 		</form>
 		</fieldset>
-	</body>
-</html> 
+		</div>
+		</div>
+    </div>
+<?php require("../footer.php"); ?>
