@@ -106,7 +106,7 @@ function login($email, $password) {
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"],$GLOBALS["serverUsername"],$GLOBALS["serverPassword"],$GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("INSERT INTO colorNotes (kirjeldus, asukoht, kuupäev, url)  VALUES (?,?,?,?)");
+		$stmt = $mysqli->prepare("INSERT INTO Nature (kirjeldus, asukoht, kuupäev, url)  VALUES (?,?,?,?)");
 		
 		$stmt->bind_param("ssss", $description, $location, $date,$url);
 		
@@ -117,49 +117,19 @@ function login($email, $password) {
 			echo "ERROR ".$stmt->error;
 		}
 	}
-	function getAllPeople() {
+	
+	
+
+  function getAllNature() {
 	
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("
-			SELECT id, age, color FROM whistle
-		
-		");
-		$stmt->bind_result($id, $age, $color);
-		$stmt->execute();
-		
-		$results = array();
-		
-		//tsükli sisu tehakse nii mitu korda, mitu rida SQL lausega tuleb
-		while($stmt->fetch()) {
-			
-			$human = new StdClass();
-			$human->id = $id;
-			$human->age = $age;
-			$human->lightColor = $color;
-	
-			
-			//echo $color."<br>";
-			array_push($results, $human);
-			
-		}
-		
-		return $results;
-		
-	}
-	
-	
-	function getAllNature() {
-	
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		
-		$stmt = $mysqli->prepare("SELECT id, kirjeldus, asukoht, kuupäev, url FROM colorNotes");
+		$stmt = $mysqli->prepare("SELECT id, kirjeldus, asukoht, kuupäev, url FROM Nature");
 		$stmt->bind_result($id, $description, $location, $date, $url);
 		$stmt->execute();
 		
 		$results = array();
 		
-		//tsükli sisu tehakse nii mitu korda, mitu rida SQL lausega tuleb
 		while($stmt->fetch()) {
 			
 			$nature = new StdClass();
@@ -170,7 +140,7 @@ function login($email, $password) {
 			$nature->url = $url;
 	
 			
-			//echo $color."<br>";
+			
 			array_push($results, $nature);
 			
 		}
