@@ -1,6 +1,6 @@
 <?php
  
- 	require_once("../../../../kristel/config.php");
+ 	require_once("../../kristel/config.php");
  	
  	$database = "if16_krisroos_3";
 	

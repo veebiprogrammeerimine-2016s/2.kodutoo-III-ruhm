@@ -2,11 +2,17 @@
 	// et saada ligi sessioonile
 	require("functions.php");
 	
+	require ("/class/helper.class.php")
+	$Helper = new Helper();
+	
+	require ("/class/note.class.php")
+	$Note = new Note($mysqli);
+	
 	//ei ole sisseloginud, suunan login lehele
-	if(!isset ($_SESSION["userId"])) {
+	/*if(!isset ($_SESSION["userId"])) {
 		header("Location: login.php");
 		exit();
-	}
+	}*/
 	
 	
 	//kas kasutaja tahab välja logida
@@ -32,19 +38,47 @@
 			!empty($_POST["note"])
 			
 	) {
-		$note = cleanInput ($_POST["note"]);
+		$profession = $helper->cleanInput ($_POST["profession"]);
+		$location = $helper->cleanInput ($_POST["location"]);
+		$money = $helper->cleanInput ($_POST["money"]);
+		$color = $helper->cleanInput ($_POST["color"]);
+		$note = $helper->cleanInput ($_POST["note"]);
 		
 		//muuda savenote fun
-		saveNote($_POST["profession"], $_POST["location"], $_POST["money"], $_POST["color"], $_POST["note"] );
+		$note->saveNote($profession, $location, $money, $color, $note);
 		
 	}
 	
-	$notes = getAllNotes();
+	$q = "";
+ 	
+ 	// otsisõna aadressirealt
+ 	if(isset($_GET["q"])){
+ 		$q = $Helper->cleanInput($_GET["q"]);
+ 	}
+ 	
+ 	//vaikimisi
+ 	$sort = "id";
+ 	$order = "ASC";
+ 	
+ 	if(isset($_GET["sort"]) && isset($_GET["order"])){
+ 		$sort = $_GET["sort"];
+ 		$order = $_GET["order"];
+ 	}
+ 	
+ 	
+ 	$notes = $Note->getAllNotes($q, $sort, $order);
+ 	
+ 	//echo "<pre>";
+ 	//var_dump($notes);
+ 	//echo "</pre>";
+ 
 	
 ?>
+
+<?php require("../header.php"); ?>
 <link rel="stylesheet" href="Style/data.css">
 <header>
-  <h1 style="clear:both;">Hei, <?=$_SESSION["userEmail"]?>. Oled jõudnud andmetelehele, 
+  <h1>Hei, <?=$_SESSION["userEmail"]?>. Oled jõudnud andmetelehele, 
 kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 </header>
 
@@ -115,7 +149,10 @@ kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 </form>
 
 <h2>Arhiiv</h2>
-
+<form>
+ 	<input type="search" name="q" value="<?=$q;?>">
+ 	<input type="submit" value="Otsi">	
+ </form>
 <?php
  //iga liikme kohta masiivis
  
@@ -131,18 +168,110 @@ kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
  ?>
  <h2 style="clear:both" style="color:white">Tabel</h2>
  <?php
- 
-	$html = "<table>";
-	
-		$html .= "<tr>";
-			$html .= "<th>id</th>";
-			$html .= "<th>Teenus</th>";
-			$html .= "<th>Linnaosa</th>";
-			$html .= "<th>Eur/h</th>";
-			$html .= "<th>Kirjeldus<th>";
-			$html .= "<th>Värv</th>";
-		$html .= "</tr>";
-		
+ $html = "<table class='table'>";
+ 	
+ 		$html .= "<tr>";
+ 		
+ 			$orderId = "ASC";
+ 			
+ 			if (isset($_GET["order"]) && 
+ 				$_GET["order"] == "ASC" && 
+ 				$_GET["sort"] == "id" ){
+ 				
+ 				$orderId = "DESC";
+ 			}
+ 		
+ 			$html .= "<th>
+ 			
+ 						<a href='?q=".$q."&sort=id&order=".$orderId."'>
+ 							id
+ 						</a>
+ 					</th>";
+					
+ 			$orderProfession = "ASC";
+ 			
+ 			if (isset($_GET["order"]) && 
+ 				$_GET["order"] == "ASC" && 
+ 				$_GET["sort"] == "profession" ){
+ 				
+ 				$orderProfession = "DESC";
+ 			}
+ 		
+ 			$html .= "<th>
+ 			
+ 						<a href='?q=".$q."&sort=profession&order=".$orderProfession."'>
+ 							Teenus
+ 						</a>
+ 					</th>";
+					
+			$orderLocation = "ASC";
+ 			
+ 			if (isset($_GET["order"]) && 
+ 				$_GET["order"] == "ASC" && 
+ 				$_GET["sort"] == "location" ){
+ 				
+ 				$orderLocation = "DESC";
+ 			}
+ 		
+ 			$html .= "<th>
+ 			
+ 						<a href='?q=".$q."&sort=location&order=".$orderLocation."'>
+ 							Linnaosa
+ 						</a>
+ 					</th>";
+					
+			$orderMoney = "DESC";
+ 			
+ 			if (isset($_GET["order"]) && 
+ 				$_GET["order"] == "DESC" && 
+ 				$_GET["sort"] == "money" ){
+ 				
+ 				$orderMoney = "ASC";
+ 			}
+ 		
+ 			$html .= "<th>
+ 			
+ 						<a href='?q=".$q."&sort=money&order=".$orderMoney."'>
+ 							Eur/h
+ 						</a>
+ 					</th>";
+			
+ 			$orderNote = "ASC";
+ 			
+ 			if (isset($_GET["order"]) && 
+ 				$_GET["order"] == "ASC" && 
+ 				$_GET["sort"] == "note" ){
+ 				
+ 				$orderNote = "DESC";
+ 			}
+ 		
+ 			$html .= "<th>
+ 			
+ 						<a href='?q=".$q."&sort=note&order=".$orderNote."'>
+ 							Kirjeldus
+ 						</a>
+ 					</th>";
+ 						
+ 			
+ 			
+ 			$orderColor = "ASC";
+ 			
+ 			if (isset($_GET["order"]) && 
+ 				$_GET["order"] == "ASC" && 
+ 				$_GET["sort"] == "color" ){
+ 				
+ 				$orderColor = "DESC";
+ 			}
+ 		
+ 			$html .= "<th>
+ 			
+ 						<a href='?q=".$q."&sort=color&order=".$orderColor."'>
+ 							Värv
+ 						</a>
+ 					</th>";
+ 					
+ 	$html .= "</tr>";
+ 	
 	
 	foreach ($notes as $note) {
 		$style = "color:white";
@@ -158,6 +287,6 @@ kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 	}
 	$html .= "</table>";
 	echo $html;
-	
-	?>
-	
+?>
+
+<?php require("footer.php"); ?>	

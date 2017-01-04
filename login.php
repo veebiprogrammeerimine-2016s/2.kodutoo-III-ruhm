@@ -70,8 +70,6 @@
 		
 		
 		
-		
-		
 		// && tähendab and 
 		if  ( isset($_POST["signupEmail"]) &&
 			isset($_POST["signupPassword"])&&
