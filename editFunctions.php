@@ -1,14 +1,10 @@
 <?php
  
- 	require_once("../../../kristel/config.php");
+ 	require_once("../../../../kristel/config.php");
  	
  	$database = "if16_krisroos_3";
 	
-    //ei ole sisseloginud, suunan login lehele
-	if(!isset ($_SESSION["userId"])) {
-		header("Location: minu lehekülg.php");
-		exit();
-	}
+    
  	
  	function getSingleNoteData($edit_id){
      
@@ -16,7 +12,7 @@
  		
  		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
  		
- 		$stmt = $mysqli->prepare("SELECT color, profession, location, money, note FROM colornotes WHERE id=?");
+ 		$stmt = $mysqli->prepare("SELECT color, profession, location, money, note FROM colornotes WHERE id=? AND deleted IS NULL");
  
  		$stmt->bind_param("i", $edit_id);
  		$stmt->bind_result( $color, $profession, $location, $money, $note);
@@ -55,9 +51,28 @@
  		
  		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
  		
- 		$stmt = $mysqli->prepare("UPDATE colornotes SET color=?, profession=?, location=?, money=?, note=? WHERE id=?");
- 		$stmt->bind_param("isssis", $id, $color, $profession, $location, $money, $note);
+ 		$stmt = $mysqli->prepare("UPDATE colornotes SET color=?, profession=?, location=?, money=?, note=? WHERE id=? AND deleted IS NULL");
+ 		$stmt->bind_param("sssisi", $color, $profession, $location, $money, $note, $id);
  		
+ 		// kas õnnestus salvestada
+ 		if($stmt->execute()){
+ 			// õnnestus
+ 			echo "salvestus õnnestus!";
+ 		}
+ 		
+ 		$stmt->close();
+ 		$mysqli->close();
+ 		
+ 	}
+	function deletenote($id){
+ 		
+ 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+ 		
+ 		$stmt = $mysqli->prepare("UPDATE colornotes 
+		
+		SET deleted=NOW() WHERE id=? AND deleted IS NULL");
+ 		$stmt->bind_param("i", $id);
+ 	
  		// kas õnnestus salvestada
  		if($stmt->execute()){
  			// õnnestus

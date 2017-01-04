@@ -1,38 +1,20 @@
 <?php 
-	require("../../../kristel/config.php");
+	require("../../../../kristel/config.php");
 	// functions.php
 	// et saab kasutada $_SESSION muutujaid
 	// kõigis failides mis on selle failiga seotud
 	session_start();
-	
-	
 	$database = "if16_krisroos_3";
+	$mysqli = new mysqli ($serverHost, $serverUsername, $serverPassword, $database);
+	
+	require ("user.class.php");
+	$User = new User($mysqli);
+	
+	
 	
 	//var_dump($GLOBALS);
 	
-	function signup($email, $password) {
-		
-		$mysqli = new mysqli(
-		
-		$GLOBALS["serverHost"], 
-		$GLOBALS["serverUsername"],  
-		$GLOBALS["serverPassword"],  
-		$GLOBALS["database"]
-		
-		);
-
-		$stmt = $mysqli->prepare("INSERT INTO Kasutajad_sample (email, password) VALUES (?, ?)");
-		echo $mysqli->error;
-		
-		$stmt->bind_param("ss", $email, $password );
-
-		if ( $stmt->execute() ) {
-			echo "salvestamine õnnestus";	
-		} else {	
-			echo "ERROR ".$stmt->error;
-		}
-		
-	}
+	
 	
 	function saveNote($profession, $location, $money, $color, $note) {
 		
@@ -62,7 +44,9 @@
 		
 		$stmt = $mysqli ->prepare("
 		SELECT id, profession, color, location, money, note
-		FROM colornotes"
+		FROM colornotes
+		WHERE deleted IS NULL"
+		
 		);
 		
 		$stmt->bind_result($id, $profession, $color, $location, $money, $note);
@@ -86,57 +70,7 @@
 		}
 		return $result;
 	}
-	
-	
-	
-	function login($email, $password) {
 		
-		$notice = "";
-		
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"],  $GLOBALS["serverPassword"],  $GLOBALS["database"]);
-		
-		$stmt = $mysqli->prepare("
-		
-			SELECT id, email, password, created
-			FROM Kasutajad_sample
-			WHERE email = ?
-		
-		");
-		// asendan ?
-		$stmt->bind_param("s", $email);
-		
-		// määran muutujad reale mis kätte saan
-		$stmt->bind_result($id, $emailFromDb, $passwordFromDb, $created);
-		
-		$stmt->execute();
-		
-		// ainult SLECTI'i puhul
-		if ($stmt->fetch()) {
-			
-			// vähemalt üks rida tuli
-			// kasutaja sisselogimise parool räsiks
-			$hash = hash("sha512", $password);
-			if ($hash == $passwordFromDb) {
-				// õnnestus 
-				echo "Kasutaja ".$id." logis sisse";
-				
-				$_SESSION["userId"] = $id;
-				$_SESSION["userEmail"] = $emailFromDb;
-				
-				header("Location: data.php");
-				exit();
-				
-			} else {
-				$notice = "Vale parool!";
-			}
-			
-		} else {
-			// ei leitud ühtegi rida
-			$notice = "Sellist emaili ei ole!";
-		}
-		
-		return $notice;
-	}
 	
 	function cleanInput ($input){
 		//enne oon " tere tulemast "

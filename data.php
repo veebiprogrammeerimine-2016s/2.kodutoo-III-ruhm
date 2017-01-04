@@ -4,7 +4,7 @@
 	
 	//ei ole sisseloginud, suunan login lehele
 	if(!isset ($_SESSION["userId"])) {
-		header("Location: minu lehekülg.php");
+		header("Location: login.php");
 		exit();
 	}
 	
@@ -15,7 +15,7 @@
 		
 		session_destroy();
 		
-		header("Location: minu lehekülg.php");
+		header("Location: login.php");
 		exit();
 		
 	}
@@ -42,85 +42,19 @@
 	$notes = getAllNotes();
 	
 ?>
-
-<h1 style="clear:both;">Hei, <?=$_SESSION["userEmail"]?>. Oled jõudnud andmetelehele, 
+<link rel="stylesheet" href="Style/data.css">
+<header>
+  <h1 style="clear:both;">Hei, <?=$_SESSION["userEmail"]?>. Oled jõudnud andmetelehele, 
 kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
+</header>
+
 
 <ul>
   <li><a href="data.php">Kodu</a></li>
   <li><a href="user,php.php">Sina</a></li>
-  <li><a href="minu lehekülg.php">Logi välja</a></li>
+  <li><a href="login.php">Logi välja</a></li>
 </ul>
 
-<style type ="text/css">
-	ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color:#000000;
-	}
-
-	li {
-    float: left;
-	}
-
-	li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-	}
-
-	/* Change the link color to #111 (black) on hover */
-	li a:hover {
-    background-color: #111;
-	}
-	ul.active {
-    background-color:#00b3b3 ;
-	}
-	body {
-		background-color:#00b3b3;
-	}
-	h1{
-		
-		text-align: center;
-		font-family: 'Goudy Old Style', Garamond, 
-		'Big Caslon', 'Times New Roman', serif;
-		font-size:45px;
-		color:#000000 ;
-	}
-	h2{
-		color:#ffffff;
-		font-size:32px;
-	}
-	legend {
-		color:#ffffff;
-		font-size: 20px;
-	}
-	label{
-		color:#ffffff;
-		font-size:23px;
-	}
-	select {
-    width: 15%;
-    padding: 9px 12px;
-    border: none;
-    border-radius: 2px;
-    background-color:#ffffff;
-	}
-	option {
-		font-size:20px;
-	}
-	input [type=text]{
-	width: 15%;
-    padding: 16px 20px;
-    border: none;
-    border-radius: 2px;
-    background-color:#527a7a;
-	}
-</style>
 
 <h2>Sisesta mõned andmed</h2>
 
@@ -129,6 +63,7 @@ kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 		<legend>Informatsioon</legend>
 			<label>Millist teenust pakud?</label><br>
 			<select name="profession" >
+			
 				<option value= "plumber" selected> Torumees</option>
 				<option value= "electrician"> Elektrik</option>
 				<option value= "cleaner"> Koristaja</option>
@@ -169,7 +104,6 @@ kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 	
 	<br><br>
 	
-	
 	<label>Värv</label><br>
 	<input name="color" type="color" value="#ffffff"/>
 				
@@ -195,7 +129,7 @@ kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 	
  }
  ?>
- <h2 style="clear:both">Tabel</h2>
+ <h2 style="clear:both" style="color:white">Tabel</h2>
  <?php
  
 	$html = "<table>";
@@ -211,6 +145,7 @@ kus aitame välja selgitada, millist abikätt saab sinu käest. </h1>
 		
 	
 	foreach ($notes as $note) {
+		$style = "color:white";
 		$html .="<tr>";
 		$html .="<td>".$note ->id."</td>";
 		$html .="<td>".$note ->profession."</td>";

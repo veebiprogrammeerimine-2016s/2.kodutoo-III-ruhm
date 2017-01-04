@@ -6,7 +6,7 @@
  	if (!isset($_SESSION["userId"])){
  		
  		//suunan sisselogimise lehele
- 		header("Location: minu lehekülg.php");
+ 		header("Location: login.php");
  		exit();
  	}
  	
@@ -15,7 +15,7 @@
  	if (isset($_GET["logout"])) {
  		
  		session_destroy();
- 		header("Location: minu lehekülg.php");
+ 		header("Location: login.php");
  		exit();
  	}
  	
@@ -39,20 +39,18 @@
      $interests = getAllInterests();
  	
  ?>
- <h1 style="clear:both;">Hei, <?=$_SESSION["userEmail"]?>. Siin lehel saame sinust rohkem teada! </h1>
+ <link rel="stylesheet" href="Style/data.css">
+ <div class="flex-container">
+<header>
+  <h1 style="clear:both;">Hei, <?=$_SESSION["userEmail"]?>. Siin lehel saame sinust rohkem teada! </h1>
+</header>
+ 
  <ul>
   <li><a href="user,php.php">Oled siin</a></li>
   <li><a href="data.php">Kodu</a></li>
   <li><a href="minu lehekülg.php">Logi välja</a></li>
 </ul>
  
- <style type ="text/css">
- body {
-		background-color:#00b3b3;
-	}
- </style>
- 
- <h2>Salvesta hobi</h2>
  <?php
      
      $listHtml = "<ul>";
@@ -70,18 +68,15 @@
  	echo $listHtml;
      
 ?>
+ <h2>Salvesta hobi</h2>
  <form method="POST">
- 	
  	<label>Hobi/huviala nimi</label><br>
  	<input name="interest" type="text">
- 	
- 	<input type="submit" value="Salvesta">
- 	
+ 	<input type="submit" value="Salvesta">	
  </form>
  
  
- 
- <h2>Kasutaja hobid</h2>
+ <h2>Võid valida ka olemasolevate hulgast:</h2>
  <form method="POST">
  	
  	<label>Hobi/huviala nimi</label><br>
