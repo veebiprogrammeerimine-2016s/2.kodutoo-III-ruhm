@@ -1,111 +1,84 @@
-<?php
-	//eet saada ligi sessioonile.
-	require ("functions.php");
-	//kui pole sisse loginud, suunan login lehele
+<?php 
+
+	require("functions.php");
 	if(!isset ($_SESSION["userId"])) {
 		header("Location: login.php");
 		exit();
-		
 	}
-		
-	
-	//kas kasutaja tahab välja logida
-	//kas aaddressi real on logout olemas
-	if(isset($_GET["logout"])) {
-		
+	if (isset($_GET["logout"])) {
 		session_destroy();
-		
+
 		header("Location: login.php");
 		exit();
 	}
-
-	if( isset ($_POST["note"]) &&
-		isset ($_POST["color"]) &&
-		!empty ($_POST["note"]) &&
-		!empty ($_POST["color"])
+	
+	if (	isset($_POST["toit"]) && 
+			isset($_POST["kalorid"]) && 
+			!empty($_POST["toit"]) && 
+			!empty($_POST["kalorid"]) 
 	) {
-		$note = cleanInput($_POST["note"]);
-		saveNote($note, $_POST["color"]);
+		
+		$toit = cleanInput($_POST["toit"]);
+		$kalorid = cleanInput($_POST["kalorid"]);
+		
+		saveInfo($_POST["toit"], $_POST["kalorid"]);
 		
 	}
-	$notes = getAllNotes();
-	echo "<pre>";
-	var_dump($notes);
-	echo "</pre>";
-	
-	$Märge = "";
-	$emptyMärge = "";
-	
-	if (isset ($_POST["Märge"])) {
-		if (empty ($_POST["Märge"])) {
-			$emptyMärge = "See peab olema täidetud, nagu su ema!";
-		} else {
-			$Märge = $_POST["Märge"];
-	}
-}
-	
+	$toidud = getAllInfo();
+	//echo "<pre>";
+	//var_dump($notes);
+	//echo "</pre>";
+
 ?>
 
 <h1>Data</h1>
 <p>
-	Tere tulemast <?=$_SESSION["userEmail"];?>
+	Tere tulemast <a href="user.php"><?=$_SESSION["userEmail"];?></a>!
 	<a href="?logout=1">Logi välja</a>
 </p>
-
+<h2><i>Märkmed</i></h2>
 <form method="POST">
-
-<h2>Märkused</h2>
 			
-
-			<label>Märge</label><br>
-			<input name="note" type="text" value="<?=$Märge;?>"> <?php echo $emptyMärge; ?>		
-			
-			<br><br>
-			
-			<label>Värv</label><br>
-			<input name="color" type="color">
-						
-			<br><br>
-			
-			<input type="submit">
-			
-		</form>
-
-<?php
-	//iga liikme kohta massiivis
+	<label>Toit</label><br>
+	<input name="toit" type="text">
 	
-	foreach($notes as $n) {
-		//$style = "width:100px; min-height:100px; border:1px solid gray; background-color: ".$n->noteColor.";";
-		
-		//echo "<p style=' ".$style." '>".$n->note."</p>";
-		
-		
-	}
-?>
-
-	<h2 style="clear:both;">Tabel</h2>
-<?php
+	<br><br>
 	
+	<label>Kalorid</label><br>
+	<input name="kalorid" type="text">
+				
+	<br><br>
+	
+	<input type="submit">
+
+</form>
+
+
+
+<h2 style="clear:both;">Tabel</h2>
+<?php 
+
 	$html = "<table>";
+		
 		$html .= "<tr>";
 			$html .= "<th>id</th>";
-			$html .= "<th>Märkus</th>";
-			$html .= "<th>Värv</th>";
-		$html .= "</tr>";
-		
-	foreach ($notes as $note) {
-		$html .= "<tr>";
-			$html .= "<td>".$note->id."</td>";
-			$html .= "<td>".$note->note."</td>";
-			$html .= "<td>".$note->noteColor."</td>";
-		$html .= "</tr>";
-		
-		
-	}
+			$html .= "<th>Toit</th>";
+			$html .= "<th>Kalorid</th>";
+		$html .="</tr>";
 
+	foreach ($toidud as $Toit) {
+		$html .= "<tr>";
+			$html .= "<td>".$Toit->id."</td>";
+			$html .= "<td>".$Toit->toit."</td>";
+			$html .= "<td>".$Toit->kalorid."</td>";
+		$html .= "</tr>";
+	}
+	
 	$html .= "</table>";
+	
 	echo $html;
 
+?>
 
 
 

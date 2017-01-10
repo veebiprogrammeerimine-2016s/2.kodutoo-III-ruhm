@@ -78,16 +78,16 @@
 	}
 
 	
-	function saveNote($note, $color) {
+	function saveInfo($toit, $kalorid) {
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 	
-		$stmt = $mysqli->prepare("INSERT INTO kodutoo 
-		(note, color) VALUES (?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO toitumine 
+		(toit, kalorid) VALUES (?, ?)");
 		
 		echo $mysqli->error;
 		
-		$stmt->bind_param("ss", $note, $color );
+		$stmt->bind_param("ss", $toit, $kalorid );
 		
 		if ( $stmt->execute() ) {
 			
@@ -98,13 +98,13 @@
 		}
 	
 	
-	function getAllNotes () {
+	function getAllInfo () {
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 
-		$stmt = $mysqli->prepare("SELECT id, note, color FROM kodutoo");
+		$stmt = $mysqli->prepare("SELECT id, toit, kalorid FROM toitumine");
 		
-		$stmt->bind_result($id, $note, $color);
+		$stmt->bind_result($id, $toit, $kalorid);
 		$stmt->execute();
 		
 		$result = array();
@@ -116,8 +116,8 @@
 			
 			$object = new StdClass ();
 			$object->id=$id;
-			$object->note=$note;
-			$object->noteColor = $color;
+			$object->toit=$toit;
+			$object->kalorid = $kalorid;
 			
 			array_push($result, $object);
 			
