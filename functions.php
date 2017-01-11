@@ -126,7 +126,7 @@
 		$GLOBALS["database"]
 		);
 		
-		$stmt = $mysqli->prepare("SELECT id, note, color FROM kodutoo");
+		$stmt = $mysqli->prepare("SELECT id, note, color FROM colorNotes");
 		
 		$stmt->bind_result($id, $note, $color);
 		$stmt->execute();
