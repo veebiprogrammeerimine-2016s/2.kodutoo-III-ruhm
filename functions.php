@@ -92,7 +92,7 @@
 	
 	
 	
-	function saveNote($note, $color) {
+	function saveInfo($kaamera, $hind, $seisukord) {
 		
 		$mysqli = new mysqli(
 		
@@ -103,10 +103,10 @@
 		
 		);
 
-		$stmt = $mysqli->prepare("INSERT INTO kodutoo (note, color) VALUES (?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO colorNotes (kaamera, hind, seisukord) VALUES (?, ?, ?)");
 		echo $mysqli->error;
 		
-		$stmt->bind_param("ss", $note, $color );
+		$stmt->bind_param("sss", $kaamera, $hind, $seisukord );
 
 		if ( $stmt->execute() ) {
 		} else {	
@@ -126,9 +126,9 @@
 		$GLOBALS["database"]
 		);
 		
-		$stmt = $mysqli->prepare("SELECT id, note, color FROM colorNotes");
+		$stmt = $mysqli->prepare("SELECT id, kaamera, hind, seisukord FROM colorNotes");
 		
-		$stmt->bind_result($id, $note, $color);
+		$stmt->bind_result($id, $kaamera, $hind, $seisukord);
 		$stmt->execute();
 		
 		$result = array();
@@ -142,8 +142,9 @@
 			
 			$object = new StdClass();
 			$object->id = $id;
-			$object->note = $note;
-			$object->noteColor = $color;
+			$object->kaamera = $kaamera;
+			$object->hind = $hind;
+			$object->seisukord = $seisukord;
 			
 			
 			

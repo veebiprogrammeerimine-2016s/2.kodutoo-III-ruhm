@@ -21,26 +21,28 @@
 	
 	
 	
-	if (	isset($_POST["note"]) && 
-			isset($_POST["color"]) && 
-			!empty($_POST["note"]) && 
-			!empty($_POST["color"]) 
+	if (	isset($_POST["kaamera"]) && 
+			isset($_POST["hind"]) && 
+			isset($_POST["seisukord"]) && 
+			!empty($_POST["kaamera"]) && 
+			!empty($_POST["hind"]) &&
+			!empty($_POST["seisukord"]) 
 	) {
 		
-		$note = cleanInput($_POST["note"]);
+		$note = cleanInput($_POST["kaamera"]);
 		
 		//Enam ei saa naiteks KickAssi scriptina jooksutada
 		
-		saveNote($_POST["note"], $_POST["color"]);
+		saveInfo($_POST["kaamera"], $_POST["hind"], $_POST["seisukord"]);
 		
 	}
 	
 	
 	$notes = getAllNotes();
 	
-	echo "<pre>";
-	var_dump($notes);
-	echo "</pre>";
+	//echo "<pre>";
+	//var_dump($notes);
+	//echo "</pre>";
 ?>
 
 <h1>Data</h1>
@@ -51,18 +53,24 @@
 
 
 
-<h2>Märkmed</h2>
+<h2>Kaamerate ost/müük/vahetus</h2>
 		<form method="POST">
 			
-			<label>Märkus</label><br>
-			<input name="note" type="text">
+			<label>Kaamera</label><br>
+			<input name="kaamera" type="text">
 			
 			<br><br>
 			
-			<label>Värv</label><br>
-			<input name="color" type="color">
-						
+			<label>Hind</label><br>
+			<input name="hind" type="text">
+			
 			<br><br>
+			
+			<label>Seisukord</label><br>
+			<input name="seisukord" type="text">
+			
+			<br><br>
+			
 			
 			<input type="submit">
 		
@@ -94,8 +102,9 @@
 	
 		$html .= "<tr>";
 			$html .= "<th>id</th>";
-			$html .= "<th>Märkus</th>";
-			$html .= "<th>Värv</th>";
+			$html .= "<th>Kaamera</th>";
+			$html .= "<th>Hind</th>";
+			$html .= "<th>Seisukord</th>";
 		$html .="</tr>";
 		
 		
@@ -106,8 +115,9 @@
 			
 		$html .= "<tr>";
 			$html .= "<td>".$note->id."</th>";
-			$html .= "<td>".$note->note."</th>";
-			$html .= "<td>".$note->noteColor."</th>";
+			$html .= "<td>".$note->kaamera."</th>";
+			$html .= "<td>".$note->hind."</th>";
+			$html .= "<td>".$note->seisukord."</th>";
 			
 		$html .="</tr>";
 		
